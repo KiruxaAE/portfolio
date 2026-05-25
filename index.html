@@ -1263,7 +1263,7 @@
       </div>
     </div>
 
-    <form class="contact-form reveal" action="https://formspree.io/f/xwvzrldj" method="POST">
+    <form class="contact-form reveal" id="contactForm">
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Имя</label>
@@ -1463,7 +1463,37 @@
   // Init gallery
   buildGallery('all');
 
-  // Form submit handled by Formspree
+  // Form submit → Formspree
+  const contactForm = document.getElementById('contactForm');
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = contactForm.querySelector('.form-submit');
+    btn.textContent = 'Отправляем...';
+    btn.disabled = true;
+
+    const data = Object.fromEntries(new FormData(contactForm).entries());
+
+    try {
+      const res = await fetch('https://formspree.io/f/xwvzrldj', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        btn.textContent = 'Отправлено ✓';
+        btn.style.background = '#2a7a4b';
+        contactForm.reset();
+      } else {
+        btn.textContent = 'Ошибка, попробуй снова';
+        btn.style.background = '#7a2a2a';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Ошибка сети';
+      btn.style.background = '#7a2a2a';
+      btn.disabled = false;
+    }
+  });
 
   // ── SCROLL PROGRESS BAR ──
   const progressBar = document.getElementById('scroll-progress');

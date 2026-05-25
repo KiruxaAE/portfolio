@@ -1267,16 +1267,16 @@
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Имя</label>
-          <input type="text" class="form-input" placeholder="Михаил" required>
+          <input type="text" name="name" class="form-input" placeholder="Михаил" required>
         </div>
         <div class="form-group">
           <label class="form-label">Контакт (TG / телефон)</label>
-          <input type="text" class="form-input" placeholder="@username" required>
+          <input type="text" name="contact" class="form-input" placeholder="@username" required>
         </div>
       </div>
       <div class="form-group">
         <label class="form-label">Тариф</label>
-        <select class="form-input" style="cursor:pointer">
+        <select name="plan" class="form-input" style="cursor:pointer">
           <option value="">Выбери тариф</option>
           <option>Базовый — 1 500 ₽</option>
           <option>Продвинутый — 3 000 ₽</option>
@@ -1286,7 +1286,7 @@
       </div>
       <div class="form-group">
         <label class="form-label">Расскажи про проект</label>
-        <textarea class="form-textarea" placeholder="Что за видео, для какой платформы, есть ли дедлайн..." required></textarea>
+        <textarea name="message" class="form-textarea" placeholder="Что за видео, для какой платформы, есть ли дедлайн..." required></textarea>
       </div>
       <button type="submit" class="form-submit">Отправить заявку →</button>
     </form>

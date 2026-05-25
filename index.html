@@ -15,8 +15,8 @@
     --bg3: #1a1a1a;
     --text: #f0ede8;
     --muted: #888;
-    --accent: #e8621a;
-    --accent2: #ff8c42;
+    --accent: #8B1F30;
+    --accent2: #b02840;
     --border: rgba(255,255,255,0.08);
   }
 
@@ -87,8 +87,8 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(232,98,26,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 50% at 20% 80%, rgba(232,98,26,0.06) 0%, transparent 50%);
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(139,31,48,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 20% 80%, rgba(139,31,48,0.09) 0%, transparent 50%);
     pointer-events: none;
   }
   .hero-grid {
@@ -108,7 +108,7 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--accent);
-    border: 1px solid rgba(232,98,26,0.4);
+    border: 1px solid rgba(139,31,48,0.5);
     padding: 0.35rem 0.9rem;
     border-radius: 2px;
     margin-bottom: 2rem;
@@ -171,7 +171,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(232,98,26,0.08) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(139,31,48,0.1) 0%, transparent 60%);
   }
   .about-photo-placeholder {
     display: flex;
@@ -249,8 +249,7 @@
   .tab-btn:hover:not(.active) { color: var(--text); }
 
   .video-frame {
-    width: 100%;
-    max-width: 700px;
+    width: 340px;
     aspect-ratio: 9/16;
     background: var(--bg3);
     border: 1px solid var(--border);
@@ -270,7 +269,7 @@
   .play-btn {
     width: 64px;
     height: 64px;
-    border: 1px solid rgba(232,98,26,0.5);
+    border: 1px solid rgba(139,31,48,0.6);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -325,7 +324,7 @@
 
   .compare-layout {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 340px 1fr;
     gap: 4rem;
     align-items: start;
   }

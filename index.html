@@ -1263,7 +1263,7 @@
       </div>
     </div>
 
-    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+    <form class="contact-form reveal" action="https://formspree.io/f/xwvzrldj" method="POST">
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Имя</label>
@@ -1463,14 +1463,7 @@
   // Init gallery
   buildGallery('all');
 
-  // Form submit
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
-    btn.textContent = 'Отправлено ✓';
-    btn.style.background = '#2a7a4b';
-    btn.disabled = true;
-  }
+  // Form submit handled by Formspree
 
   // ── SCROLL PROGRESS BAR ──
   const progressBar = document.getElementById('scroll-progress');

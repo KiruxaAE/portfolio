@@ -20,7 +20,195 @@
     --border: rgba(255,255,255,0.08);
   }
 
-  html { scroll-behavior: smooth; }
+  /* ── SCROLL PROGRESS BAR ── */
+  #scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: var(--accent);
+    z-index: 999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease, opacity 0.2s;
+    box-shadow: 0 0 12px var(--accent), 0 0 24px rgba(139,31,48,0.4);
+  }
+  .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(139,31,48,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s;
+  }
+  body:has(a:hover) .cursor-ring,
+  body:has(button:hover) .cursor-ring {
+    width: 56px; height: 56px;
+    border-color: var(--accent);
+  }
+
+  /* ── FILM GRAIN ── */
+  .film-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    pointer-events: none;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    animation: grain 0.5s steps(1) infinite;
+  }
+  @keyframes grain {
+    0%,100% { transform: translate(0,0); }
+    10% { transform: translate(-3%,-4%); }
+    20% { transform: translate(3%,3%); }
+    30% { transform: translate(-4%,1%); }
+    40% { transform: translate(2%,-3%); }
+    50% { transform: translate(-2%,4%); }
+    60% { transform: translate(4%,-1%); }
+    70% { transform: translate(-3%,2%); }
+    80% { transform: translate(1%,-4%); }
+    90% { transform: translate(-1%,3%); }
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    background: var(--bg2);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    width: max-content;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 2rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .marquee-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── GLITCH on hero h1 em ── */
+  h1 em {
+    position: relative;
+    animation: glitch-idle 6s ease-in-out infinite;
+  }
+  @keyframes glitch-idle {
+    0%, 85%, 100% { clip-path: none; transform: none; }
+    87% { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 0); }
+    89% { clip-path: inset(60% 0 10% 0); transform: translate(4px, 0); }
+    91% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, 0); }
+    93% { clip-path: none; transform: none; }
+  }
+
+  /* ── STAT COUNTERS in about ── */
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 2.5rem;
+    border: 1px solid var(--border);
+  }
+  .stat-item {
+    padding: 1.4rem 1.2rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    line-height: 1;
+    color: var(--text);
+    display: block;
+  }
+  .stat-num .stat-accent { color: var(--accent); }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* ── PRICING CARD HOVER GLOW ── */
+  .pricing-card {
+    transition: background 0.25s;
+  }
+  .pricing-card:hover {
+    background: var(--bg3) !important;
+  }
+  .pricing-card:hover .plan-cta:not(.accent) {
+    border-color: rgba(139,31,48,0.4);
+  }
+
+  /* ── NAV PROGRESS INDICATOR ── */
+  .nav-logo { position: relative; }
+
+  /* ── HERO SCAN LINE ── */
+  #hero::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139,31,48,0.4), transparent);
+    animation: scan 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes scan {
+    0%   { top: 0%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* ── GALLERY ITEM HOVER GLOW ── */
+  .gallery-item:hover .gallery-thumb {
+    border-color: rgba(139,31,48,0.5);
+    box-shadow: 0 0 20px rgba(139,31,48,0.15);
+  }
+
+  /* ── REVEAL STAGGER ── */
+  .reveal { transition-delay: 0s; }
+  .reveal-d1 { transition-delay: 0.1s; }
+  .reveal-d2 { transition-delay: 0.2s; }
+  .reveal-d3 { transition-delay: 0.3s; }
 
   body {
     background: var(--bg);
@@ -167,11 +355,34 @@
     position: relative;
     overflow: hidden;
   }
+  /* Actual photo — fills container perfectly */
+  .about-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
   .about-photo::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(139,31,48,0.1) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(139,31,48,0.15) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  /* Decorative corner accent */
+  .about-photo::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    border-right: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    z-index: 2;
+    pointer-events: none;
   }
   .about-photo-placeholder {
     display: flex;
@@ -182,6 +393,8 @@
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    position: relative;
+    z-index: 1;
   }
   .about-photo-placeholder svg { opacity: 0.3; }
   h2 {
@@ -692,6 +905,16 @@
 </head>
 <body>
 
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- FILM GRAIN -->
+<div class="film-grain" aria-hidden="true"></div>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">KIRUXA</a>
@@ -716,12 +939,37 @@
   </div>
 </section>
 
+<!-- MARQUEE -->
+<div class="marquee-section" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
+    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Моушн-графика <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
+    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Моушн-графика <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
 <!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
     <div class="about-photo reveal">
+      <!-- Замени photo.jpg на путь к своему фото -->
+      <img src="photo.jpg" alt="Кирилл — видеомонтажёр" onerror="this.style.display='none'">
       <div class="about-photo-placeholder">
-        <img src="photo.jpg" style="width:100%;height:100%;object-fit:cover;display:block" alt="Кирилл">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span>Твоё фото</span>
       </div>
     </div>
     <div class="about-text reveal">
@@ -732,6 +980,20 @@
       <div class="skills-row">
         <span class="skill-tag">Premiere Pro</span>
         <span class="skill-tag">After Effects</span>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-item">
+          <span class="stat-num" data-target="20"><span class="count">0</span><span class="stat-accent">+</span></span>
+          <span class="stat-label">Работ</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="2"><span class="count">0</span><span class="stat-accent">+</span></span>
+          <span class="stat-label">Года опыта</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="100"><span class="count">0</span><span class="stat-accent">%</span></span>
+          <span class="stat-label">Довольных</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1120,6 +1382,70 @@
     btn.style.background = '#2a7a4b';
     btn.disabled = true;
   }
+
+  // ── SCROLL PROGRESS BAR ──
+  const progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (scrolled / maxScroll) * 100;
+    progressBar.style.width = pct + '%';
+  }, { passive: true });
+
+  // ── CUSTOM CURSOR ──
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function moveCursor() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(moveCursor);
+  })();
+  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+
+  // ── HERO PARALLAX GLOW on mouse ──
+  const heroBg = document.querySelector('.hero-bg');
+  const hero   = document.getElementById('hero');
+  hero.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+    const yPct = ((e.clientY - rect.top)  / rect.height) * 100;
+    heroBg.style.background = `
+      radial-gradient(ellipse 80% 60% at ${xPct}% ${yPct}%, rgba(139,31,48,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 20% 80%, rgba(139,31,48,0.09) 0%, transparent 50%)`;
+  });
+
+  // ── STAT COUNTERS ──
+  function animateCounter(el, target, duration = 1500) {
+    let start = null;
+    const step = ts => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const statNum = e.target;
+      const target  = parseInt(statNum.dataset.target);
+      const countEl = statNum.querySelector('.count');
+      animateCounter(countEl, target);
+      statsObserver.unobserve(statNum);
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => statsObserver.observe(el));
 </script>
 </body>
 </html>

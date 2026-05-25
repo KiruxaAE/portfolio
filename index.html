@@ -983,7 +983,7 @@
       </div>
       <div class="about-stats reveal">
         <div class="stat-item">
-          <span class="stat-num" data-target="20"><span class="count">0</span><span class="stat-accent">+</span></span>
+          <span class="stat-num" data-target="50"><span class="count">0</span><span class="stat-accent">+</span></span>
           <span class="stat-label">Работ</span>
         </div>
         <div class="stat-item">
@@ -1250,9 +1250,16 @@
   // ============================================================
   // ТВОИ ВИДЕО — просто добавляй новые объекты в этот список!
   //
-  // youtubeId — ID из ссылки YouTube. Например:
-  //   https://www.youtube.com/watch?v=dQw4w9WgXcQ
-  //   ID = dQw4w9WgXcQ
+  // embedUrl — ссылка для встраивания с любой платформы:
+  //
+  //   ВКонтакте: открой видео → «...» → «Поделиться» → «Код для вставки»
+  //              скопируй src="..." из тега <iframe> и вставь сюда
+  //
+  //   Rutube: открой видео → «Поделиться» → «Встроить»
+  //           скопируй src="..." из тега <iframe>
+  //
+  // thumb — прямая ссылка на картинку-превью (любое изображение).
+  //         Можно загрузить скриншот кадра на imgur.com и взять ссылку.
   //
   // level: "basic" | "advanced" | "pro"
   // format: "vertical" | "horizontal"
@@ -1261,31 +1268,35 @@
   // ============================================================
   const VIDEOS = [
     {
-      youtubeId: "dQw4w9WgXcQ",
+      embedUrl: "ВСТАВЬ_ССЫЛКУ_EMBED",
+      thumb: "ВСТАВЬ_ССЫЛКУ_НА_ПРЕВЬЮ",
       level: "basic",
       format: "vertical",
       title: "Экспертный рилс",
       client: "Личный проект"
     },
     {
-      youtubeId: "dQw4w9WgXcQ",
+      embedUrl: "ВСТАВЬ_ССЫЛКУ_EMBED",
+      thumb: "ВСТАВЬ_ССЫЛКУ_НА_ПРЕВЬЮ",
       level: "advanced",
       format: "vertical",
       title: "Продвинутый монтаж",
       client: "Личный проект"
     },
     {
-      youtubeId: "dQw4w9WgXcQ",
+      embedUrl: "ВСТАВЬ_ССЫЛКУ_EMBED",
+      thumb: "ВСТАВЬ_ССЫЛКУ_НА_ПРЕВЬЮ",
       level: "pro",
       format: "horizontal",
       title: "Профессиональный монтаж",
       client: "Личный проект"
     },
-    // Пример как добавить ещё видео:
+    // Чтобы добавить ещё видео — скопируй блок ниже, раскомментируй и заполни:
     // {
-    //   youtubeId: "ТВОЙ_ID",
-    //   level: "advanced",
-    //   format: "vertical",   ← или "horizontal"
+    //   embedUrl: "ВСТАВЬ_ССЫЛКУ_EMBED",
+    //   thumb: "ВСТАВЬ_ССЫЛКУ_НА_ПРЕВЬЮ",
+    //   level: "advanced",        ← basic / advanced / pro
+    //   format: "vertical",       ← vertical / horizontal
     //   title: "Название работы",
     //   client: "Для кого / тип"
     // },
@@ -1302,9 +1313,9 @@
     const grid = document.getElementById('galleryGrid');
     const items = filter === 'all' ? VIDEOS : VIDEOS.filter(v => v.level === filter);
     grid.innerHTML = items.map((v, i) => `
-      <div class="gallery-item reveal" data-id="${i}" data-youtube="${v.youtubeId}" data-format="${v.format || 'vertical'}" ${v.format === 'horizontal' ? 'style="grid-column: span 2"' : ''}>
+      <div class="gallery-item reveal" data-id="${i}" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}" ${v.format === 'horizontal' ? 'style="grid-column: span 2"' : ''}>
         <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : ''}">
-          <img src="https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg"
+          <img src="${v.thumb}"
                style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
           <div class="gallery-thumb-cover">
             <div class="gallery-play">
@@ -1322,7 +1333,7 @@
 
     grid.querySelectorAll('.gallery-item').forEach(el => {
       observer.observe(el);
-      el.addEventListener('click', () => openModal(el.dataset.youtube, el.dataset.format));
+      el.addEventListener('click', () => openModal(el.dataset.embed, el.dataset.format));
     });
   }
 
@@ -1336,10 +1347,10 @@
   });
 
   // Modal
-  function openModal(youtubeId, format) {
+  function openModal(embedUrl, format) {
     const modal = document.getElementById('modalVideo');
     modal.className = 'modal-video' + (format === 'horizontal' ? ' horizontal' : '');
-    modal.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+    modal.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }

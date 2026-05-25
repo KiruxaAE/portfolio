@@ -866,6 +866,8 @@
     aspect-ratio: 16/9;
     max-width: 860px;
   }
+  .modal-video.horizontal ~ * { max-width: 860px; }
+  .modal-inner:has(.modal-video.horizontal) { max-width: 860px; }
   .modal-video iframe { width: 100%; height: 100%; border: none; }
 
   /* FOOTER */
@@ -899,7 +901,58 @@
   @media (max-width: 600px) {
     .nav-links { display: none; }
     section { padding: 5rem 5vw; }
-    h1 { font-size: 3.5rem; }
+    h1 { font-size: 3.2rem; }
+    h2 { font-size: clamp(2rem, 8vw, 3rem); }
+
+    /* Hero */
+    #hero { padding-bottom: 6rem; }
+    .hero-sub { font-size: 0.95rem; }
+
+    /* About photo — квадрат на маленьких экранах */
+    .about-photo { aspect-ratio: 1/1; }
+
+    /* Галерея — на мобиле всё в одну колонку, горизонтальные тоже */
+    .gallery-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .gallery-item[style*="grid-column"] {
+      grid-column: span 1 !important;
+    }
+
+    /* Портфолио — вкладки */
+    .compare-tabs { width: 100%; }
+    .tab-btn { flex: 1; padding: 0.6rem 0.5rem; font-size: 0.7rem; }
+    .video-frame { width: 100%; }
+
+    /* Модал — занимает экран правильно */
+    .modal-overlay { padding: 1rem; align-items: flex-end; padding-bottom: 2rem; }
+    .modal-inner { max-width: 100%; }
+    .modal-video { max-height: 80vh; }
+    .modal-video.horizontal {
+      max-width: 100%;
+      aspect-ratio: 16/9;
+      max-height: 60vw;
+    }
+    .modal-close { top: -2rem; font-size: 0.85rem; }
+
+    /* Прайсинг */
+    .pricing-card { padding: 2rem 1.5rem; }
+
+    /* Контакты */
+    .contact-grid { gap: 2rem; }
+    .form-submit { width: 100%; text-align: center; }
+
+    /* Футер */
+    footer { flex-direction: column; gap: 0.4rem; text-align: center; }
+
+    /* Маркий — чуть медленнее на маленьком экране */
+    .marquee-track { animation-duration: 18s; }
+  }
+
+  /* Скрываем кастомный курсор на тач-устройствах */
+  @media (hover: none) and (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none !important; }
+    body { cursor: auto; }
   }
 </style>
 </head>
@@ -969,7 +1022,6 @@
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
           <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
         </svg>
-        <span>Твоё фото</span>
       </div>
     </div>
     <div class="about-text reveal">
@@ -1373,7 +1425,9 @@
   // Modal
   function openModal(embedUrl, format) {
     const modal = document.getElementById('modalVideo');
+    const inner = document.querySelector('.modal-inner');
     modal.className = 'modal-video' + (format === 'horizontal' ? ' horizontal' : '');
+    inner.style.maxWidth = format === 'horizontal' ? '860px' : '420px';
     modal.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1427,34 +1481,39 @@
     progressBar.style.width = pct + '%';
   }, { passive: true });
 
-  // ── CUSTOM CURSOR ──
+  // ── CUSTOM CURSOR — только на устройствах с мышью ──
+  const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const dot  = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  (function moveCursor() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    dot.style.left  = mx + 'px';
-    dot.style.top   = my + 'px';
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(moveCursor);
-  })();
-  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+  if (!isTouchDevice) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function moveCursor() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      dot.style.left  = mx + 'px';
+      dot.style.top   = my + 'px';
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(moveCursor);
+    })();
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+  }
 
-  // ── HERO PARALLAX GLOW on mouse ──
-  const heroBg = document.querySelector('.hero-bg');
-  const hero   = document.getElementById('hero');
-  hero.addEventListener('mousemove', e => {
-    const rect = hero.getBoundingClientRect();
-    const xPct = ((e.clientX - rect.left) / rect.width) * 100;
-    const yPct = ((e.clientY - rect.top)  / rect.height) * 100;
-    heroBg.style.background = `
-      radial-gradient(ellipse 80% 60% at ${xPct}% ${yPct}%, rgba(139,31,48,0.25) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 50% at 20% 80%, rgba(139,31,48,0.09) 0%, transparent 50%)`;
-  });
+  // ── HERO PARALLAX GLOW on mouse — только на десктопе ──
+  if (!isTouchDevice) {
+    const heroBg = document.querySelector('.hero-bg');
+    const hero   = document.getElementById('hero');
+    hero.addEventListener('mousemove', e => {
+      const rect = hero.getBoundingClientRect();
+      const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+      const yPct = ((e.clientY - rect.top)  / rect.height) * 100;
+      heroBg.style.background = `
+        radial-gradient(ellipse 80% 60% at ${xPct}% ${yPct}%, rgba(139,31,48,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(139,31,48,0.09) 0%, transparent 50%)`;
+    });
+  }
 
   // ── STAT COUNTERS ──
   function animateCounter(el, target, duration = 1500) {

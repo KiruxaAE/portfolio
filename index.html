@@ -309,8 +309,29 @@
   }
   h1 em {
     font-style: normal;
+    position: relative;
+    display: inline-block;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(240,237,232,0.3);
+    background: linear-gradient(100deg, var(--accent2) 0%, #ff5d78 45%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    padding-bottom: 0.05em;
+  }
+  h1 em::after {
+    content: '';
+    position: absolute;
+    left: 0.04em;
+    right: 0.04em;
+    bottom: 0.02em;
+    height: 0.08em;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underline-grow 1s cubic-bezier(.65,0,.35,1) 0.5s forwards;
+  }
+  @keyframes underline-grow {
+    to { transform: scaleX(1); }
   }
   .hero-sub {
     font-size: 1.1rem;
@@ -343,6 +364,7 @@
   }
   .about-photo {
     aspect-ratio: 3/4;
+    max-width: 500px;
     background: var(--bg3);
     border: 1px solid var(--border);
     display: flex;
@@ -837,8 +859,8 @@
   .modal-overlay.open { display: flex; }
   .modal-inner {
     position: relative;
-    width: 100%;
-    max-width: 420px;
+    width: fit-content;
+    max-width: 100%;
   }
   .modal-close {
     position: absolute;
@@ -856,17 +878,16 @@
   }
   .modal-close:hover { color: var(--text); }
   .modal-video {
-    width: 100%;
+    width: min(560px, calc(86vh * 9 / 16));
+    max-width: 100%;
     aspect-ratio: 9/16;
     border: 1px solid var(--border);
     background: var(--bg);
   }
   .modal-video.horizontal {
+    width: min(1040px, calc(86vh * 16 / 9));
     aspect-ratio: 16/9;
-    max-width: 860px;
   }
-  .modal-video.horizontal ~ * { max-width: 860px; }
-  .modal-inner:has(.modal-video.horizontal) { max-width: 860px; }
   .modal-video iframe { width: 100%; height: 100%; border: none; }
 
   /* FOOTER */
@@ -925,13 +946,8 @@
 
     /* Модал — занимает экран правильно */
     .modal-overlay { padding: 1rem; align-items: flex-end; padding-bottom: 2rem; }
-    .modal-inner { max-width: 100%; }
-    .modal-video { max-height: 80vh; }
-    .modal-video.horizontal {
-      max-width: 100%;
-      aspect-ratio: 16/9;
-      max-height: 60vw;
-    }
+    .modal-video { width: min(100%, calc(80vh * 9 / 16)); }
+    .modal-video.horizontal { width: min(100%, calc(80vh * 16 / 9)); }
     .modal-close { top: -2rem; font-size: 0.85rem; }
 
     /* Прайсинг */
@@ -985,7 +1001,7 @@
   <div class="hero-grid"></div>
   <div class="hero-content reveal">
     <div class="hero-tag">Видеомонтажёр</div>
-    <h1>Монтаж<br>который<br><em>цепляет</em></h1>
+    <h1>Монтаж,<br>который<br><em>цепляет</em></h1>
     <p class="hero-sub">Базовый монтаж, продвинутый или профессиональный — выбирай уровень под свои задачи и бюджет.</p>
     <a href="#pricing" class="hero-cta">Посмотреть тарифы</a>
   </div>

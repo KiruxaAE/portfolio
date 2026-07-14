@@ -122,19 +122,6 @@
     to   { transform: translateX(-50%); }
   }
 
-  /* ── GLITCH on hero h1 em ── */
-  h1 em {
-    position: relative;
-    animation: glitch-idle 6s ease-in-out infinite;
-  }
-  @keyframes glitch-idle {
-    0%, 85%, 100% { clip-path: none; transform: none; }
-    87% { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 0); }
-    89% { clip-path: inset(60% 0 10% 0); transform: translate(4px, 0); }
-    91% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, 0); }
-    93% { clip-path: none; transform: none; }
-  }
-
   /* ── STAT COUNTERS in about ── */
   .about-stats {
     display: grid;

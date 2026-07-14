@@ -71,7 +71,6 @@
     opacity: 0.032;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     background-size: 200px 200px;
-    animation: grain 0.5s steps(1) infinite;
   }
   @keyframes grain {
     0%,100% { transform: translate(0,0); }
@@ -385,7 +384,7 @@
     pointer-events: none;
   }
   .about-photo-placeholder {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
@@ -1017,7 +1016,7 @@
   <div class="about-grid">
     <div class="about-photo reveal">
       <!-- Замени photo.jpg на путь к своему фото -->
-      <img src="photo.jpeg" alt="Кирилл — видеомонтажёр" onerror="this.style.display='none'">
+      <img src="photo.jpeg" alt="Кирилл — видеомонтажёр" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
       <div class="about-photo-placeholder">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
           <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
@@ -1310,6 +1309,12 @@
   //   Rutube: открой видео → «Поделиться» → «Встроить»
   //           скопируй src="..." из тега <iframe>
   //
+  //   YouTube Shorts: обычная ссылка на шортс выглядит так —
+  //           https://www.youtube.com/shorts/ID_ВИДЕО
+  //           для встраивания просто замени "shorts" на "embed":
+  //           https://www.youtube.com/embed/ID_ВИДЕО
+  //           (ID_ВИДЕО остаётся тем же, формат: "vertical")
+  //
   // thumb — прямая ссылка на картинку-превью (любое изображение).
   //         Можно загрузить скриншот кадра на imgur.com и взять ссылку.
   //
@@ -1352,7 +1357,7 @@
       client: "Дядя Рома / Дизайн"
     },
     {
-      embedUrl: "https://www.youtube.com/shorts/gmgMKq3xvYA",
+      embedUrl: "https://www.youtube.com/embed/gmgMKq3xvYA",
       thumb: "https://i.postimg.cc/yxt0xvFP/Snimok-ekrana-2026-07-14-v-19-59-15.png",
       level: "pro",
       format: "vertical",

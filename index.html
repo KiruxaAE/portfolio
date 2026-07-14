@@ -237,6 +237,27 @@
   }
   .nav-links a:hover { color: var(--text); }
 
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 26px; height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 100%; height: 2px;
+    background: var(--text);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   /* SECTIONS */
   section { padding: 7rem 5vw; }
   .section-label {
@@ -276,6 +297,30 @@
     pointer-events: none;
   }
   .hero-content { position: relative; max-width: 900px; }
+  .hero-status {
+    position: absolute;
+    top: 7rem;
+    left: 5vw;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero-status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74,222,128,0.7);
+    flex-shrink: 0;
+    animation: status-pulse 2s ease-in-out infinite;
+  }
+  @keyframes status-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.75); }
+  }
   .hero-tag {
     display: inline-block;
     font-size: 0.75rem;
@@ -352,6 +397,8 @@
   .about-photo {
     aspect-ratio: 3/4;
     max-width: 500px;
+    width: 100%;
+    justify-self: center;
     background: var(--bg3);
     border: 1px solid var(--border);
     display: flex;
@@ -898,7 +945,8 @@
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .about-photo { aspect-ratio: 4/3; }
+    .about-photo { aspect-ratio: 4/5; }
+    .about-photo img { object-position: center 20%; }
     .pricing-grid { grid-template-columns: 1fr; }
     .compare-layout { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
@@ -906,7 +954,26 @@
     .nav-links { gap: 1.5rem; }
   }
   @media (max-width: 600px) {
-    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      position: fixed;
+      top: 58px; left: 0; right: 0;
+      flex-direction: column;
+      gap: 0;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .nav-links.open { max-height: 320px; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block;
+      padding: 1rem 5vw;
+      border-top: 1px solid var(--border);
+    }
     section { padding: 5rem 5vw; }
     h1 { font-size: 3.2rem; }
     h2 { font-size: clamp(2rem, 8vw, 3rem); }
@@ -914,9 +981,11 @@
     /* Hero */
     #hero { padding-bottom: 6rem; }
     .hero-sub { font-size: 0.95rem; }
+    .hero-status { top: 5.5rem; }
 
-    /* About photo — квадрат на маленьких экранах */
-    .about-photo { aspect-ratio: 1/1; }
+    /* About photo — менее жёсткий кроп на маленьких экранах */
+    .about-photo { aspect-ratio: 4/5; }
+    .about-photo img { object-position: center 18%; }
 
     /* Галерея — на мобиле всё в одну колонку, горизонтальные тоже */
     .gallery-grid {
@@ -980,12 +1049,19 @@
     <li><a href="#pricing">Цены</a></li>
     <li><a href="#contact">Контакты</a></li>
   </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Открыть меню">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
+  <div class="hero-status reveal">
+    <span class="hero-status-dot"></span>
+    Открыт для новых проектов
+  </div>
   <div class="hero-content reveal">
     <div class="hero-tag">Видеомонтажёр</div>
     <h1>Монтаж,<br>который<br><em>цепляет</em></h1>
@@ -1460,6 +1536,20 @@
     if (e.target === e.currentTarget) closeModal();
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.querySelector('.nav-links');
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
 
   // Tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {

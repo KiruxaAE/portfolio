@@ -119,7 +119,7 @@
   }
   @keyframes marquee {
     from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+    to   { transform: translateX(-25%); }
   }
 
   /* ── STAT COUNTERS in about ── */
@@ -385,6 +385,137 @@
     transition: background 0.2s, transform 0.15s;
   }
   .hero-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  /* HERO VISUAL — TIMELINE MOCKUP (заполняет пустое пространство сверху) */
+  .hero-visual {
+    display: none;
+    position: absolute;
+    top: 11rem;
+    right: 6vw;
+    width: clamp(300px, 28vw, 400px);
+    z-index: 1;
+    animation: hero-visual-float 6s ease-in-out infinite;
+  }
+  @media (min-width: 1100px) {
+    .hero-visual { display: block; }
+  }
+  @keyframes hero-visual-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .timeline-panel {
+    background: rgba(17,17,17,0.75);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 3px;
+    padding: 1.1rem 1.2rem 1.3rem;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02);
+  }
+  .timeline-head {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tc-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 8px rgba(176,40,64,0.8);
+    flex-shrink: 0;
+    animation: status-pulse 1.6s ease-in-out infinite;
+  }
+  .tc-code {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .tc-code b { color: var(--accent2); font-weight: 400; }
+  .tc-file {
+    margin-left: auto;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 45%;
+  }
+  .timeline-tracks { position: relative; display: flex; flex-direction: column; gap: 0.5rem; }
+  .track-row { display: flex; align-items: center; gap: 0.6rem; }
+  .track-label {
+    width: 20px;
+    flex-shrink: 0;
+    font-size: 0.62rem;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    font-family: 'Bebas Neue', sans-serif;
+  }
+  .track-lane {
+    position: relative;
+    flex: 1;
+    height: 20px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .clip {
+    position: absolute;
+    top: 2px; bottom: 2px;
+    border-radius: 1px;
+  }
+  .clip-video {
+    background: linear-gradient(135deg, rgba(139,31,48,0.55), rgba(139,31,48,0.25));
+    border: 1px solid rgba(139,31,48,0.5);
+  }
+  .clip-fx {
+    background: linear-gradient(135deg, rgba(240,237,232,0.14), rgba(240,237,232,0.05));
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .track-audio {
+    height: 26px;
+    display: flex;
+    align-items: center;
+    padding: 0 2px;
+    gap: 2px;
+  }
+  .wave-bar {
+    flex: 1;
+    background: rgba(240,237,232,0.35);
+    border-radius: 1px;
+    align-self: center;
+  }
+  .playhead {
+    position: absolute;
+    top: -2px; bottom: -2px;
+    width: 1px;
+    background: var(--accent2);
+    box-shadow: 0 0 6px rgba(176,40,64,0.9);
+    animation: playhead-scrub 7s linear infinite;
+  }
+  .playhead::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--accent2);
+  }
+  @keyframes playhead-scrub {
+    0%   { left: 0%; opacity: 0; }
+    6%   { opacity: 1; }
+    94%  { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-visual, .playhead, .tc-dot, #hero::after { animation: none !important; }
+  }
 
   /* ABOUT */
   #about { background: var(--bg2); }
@@ -1068,11 +1199,88 @@
     <p class="hero-sub">Базовый монтаж, продвинутый или профессиональный — выбирай уровень под свои задачи и бюджет.</p>
     <a href="#pricing" class="hero-cta">Посмотреть тарифы</a>
   </div>
+
+  <!-- Декоративный таймлайн-мокап — заполняет пустое пространство сверху на широких экранах -->
+  <div class="hero-visual reveal" aria-hidden="true">
+    <div class="timeline-panel">
+      <div class="timeline-head">
+        <span class="tc-dot"></span>
+        <span class="tc-code">00:00:14<b>:07</b></span>
+        <span class="tc-file">reel_final_v3.mp4</span>
+      </div>
+      <div class="timeline-tracks">
+        <div class="track-row">
+          <span class="track-label">V2</span>
+          <div class="track-lane">
+            <span class="clip clip-fx" style="left:6%;width:20%"></span>
+            <span class="clip clip-fx" style="left:34%;width:16%"></span>
+            <span class="clip clip-fx" style="left:58%;width:32%"></span>
+          </div>
+        </div>
+        <div class="track-row">
+          <span class="track-label">V1</span>
+          <div class="track-lane">
+            <span class="clip clip-video" style="left:0%;width:30%"></span>
+            <span class="clip clip-video" style="left:32%;width:24%"></span>
+            <span class="clip clip-video" style="left:60%;width:40%"></span>
+          </div>
+        </div>
+        <div class="track-row">
+          <span class="track-label">A1</span>
+          <div class="track-lane track-audio">
+            <span class="wave-bar" style="height:35%"></span>
+            <span class="wave-bar" style="height:60%"></span>
+            <span class="wave-bar" style="height:25%"></span>
+            <span class="wave-bar" style="height:75%"></span>
+            <span class="wave-bar" style="height:45%"></span>
+            <span class="wave-bar" style="height:90%"></span>
+            <span class="wave-bar" style="height:30%"></span>
+            <span class="wave-bar" style="height:55%"></span>
+            <span class="wave-bar" style="height:20%"></span>
+            <span class="wave-bar" style="height:65%"></span>
+            <span class="wave-bar" style="height:40%"></span>
+            <span class="wave-bar" style="height:85%"></span>
+            <span class="wave-bar" style="height:30%"></span>
+            <span class="wave-bar" style="height:50%"></span>
+            <span class="wave-bar" style="height:70%"></span>
+            <span class="wave-bar" style="height:35%"></span>
+            <span class="wave-bar" style="height:60%"></span>
+            <span class="wave-bar" style="height:25%"></span>
+            <span class="wave-bar" style="height:80%"></span>
+            <span class="wave-bar" style="height:45%"></span>
+            <span class="wave-bar" style="height:55%"></span>
+            <span class="wave-bar" style="height:30%"></span>
+            <span class="wave-bar" style="height:65%"></span>
+            <span class="wave-bar" style="height:20%"></span>
+            <span class="wave-bar" style="height:75%"></span>
+            <span class="wave-bar" style="height:40%"></span>
+            <span class="wave-bar" style="height:50%"></span>
+            <span class="wave-bar" style="height:30%"></span>
+          </div>
+        </div>
+        <div class="playhead"></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- MARQUEE -->
 <div class="marquee-section" aria-hidden="true">
   <div class="marquee-track">
+    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
+    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
+    <div class="marquee-item">YouTube <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
+    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
+    <div class="marquee-item">YouTube <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
     <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
     <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
     <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
@@ -1107,7 +1315,7 @@
       <h2>Привет,<br>я Кирюха</h2>
       <p>Видеомонтаж мне приносит кайф, поэтому я и решил работать именно в этом направлении ❤️</p>
       <p>Сам по себе я очень открытый чувак и всегда могу найти контакт с любым человеком, а также я всегда прямо высказываю свои мысли 😗</p>
-      <p>Работаю с Reels и YouTube форматом<p> 
+      <p>Работаю с Reels и YouTube форматом</p>
       <p>Каждый проект — это управление вниманием зрителя, а не просто склейка кусков</p>
       <div class="skills-row">
         <span class="skill-tag">Premiere Pro</span>
@@ -1374,7 +1582,7 @@
 </section>
 
 <footer>
-  <p>© 2025 Кирилл. Все права защищены.</p>
+  <p>© 2026 Кирилл. Все права защищены.</p>
   <p>Видеомонтаж для авторов и брендов</p>
 </footer>
 

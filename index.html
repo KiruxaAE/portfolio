@@ -1356,16 +1356,7 @@
     <div class="compare-layout">
       <div>
         <div class="video-frame">
-          <!-- ЗАМЕНИ src на реальную ссылку на видео, например из YouTube -->
-          <!-- <iframe width="100%" height="100%" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe> -->
-          <div class="video-placeholder">
-            <div class="play-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5,3 19,12 5,21"/>
-              </svg>
-            </div>
-            <span style="font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase">Вставь видео сюда</span>
-          </div>
+         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/vKJg01lB95U" frameborder="0" allowfullscreen></iframe>
         </div>
       </div>
       <div>
@@ -1613,6 +1604,14 @@
   // client: для кого или тип контента
   // ============================================================
   const VIDEOS = [
+     {
+      embedUrl: "https://www.youtube.com/@vasyalisakedrova/shorts",
+      thumb: "https://i.imgur.com/z0WC0kf.png",
+      level: "basic",
+      format: "vertical",
+      title: "Базовый монтаж",
+      client: "блогер с 2млн+ подписчиков / Василиса Кедрова / Развлекательный"
+    },
     {
       embedUrl: "https://www.youtube.com/embed/29RFyqK1plA",
       thumb: "https://i.imgur.com/RduTW5L.png",
@@ -1647,7 +1646,7 @@
     },
     {
       embedUrl: "https://www.youtube.com/embed/gmgMKq3xvYA",
-      thumb: "https://i.postimg.cc/yxt0xvFP/Snimok-ekrana-2026-07-14-v-19-59-15.png",
+      thumb: "https://i.imgur.com/6SHTFP6.png",
       level: "advanced",
       format: "vertical",
       title: "Продвинутый монтаж",
@@ -1655,7 +1654,7 @@
     },
     {
       embedUrl: "https://www.youtube.com/embed/oczRFAYVwkc",
-      thumb: "https://i.postimg.cc/LXNdZ06v/Snimok-ekrana-2026-07-14-v-20-12-06.png",
+      thumb: "blob:https://imgur.com/53ab8c38-3b5f-4ac2-98ee-bf97de56f736",
       level: "advanced",
       format: "vertical",
       title: "Продвинутый монтаж",
@@ -1663,12 +1662,29 @@
     },
     {
       embedUrl: "https://www.youtube.com/embed/bCqOzsrjvrM",
-      thumb: "https://i.postimg.cc/C5GcqRNg/Snimok-ekrana-2026-07-14-v-20-19-32.png",
+      thumb: "https://i.imgur.com/Kxxqo3h.png",
       level: "basic",
       format: "vertical",
       title: "Базовый монтаж",
       client: "Тестовое / Еда"
     },
+    {
+      embedUrl: "https://www.youtube.com/embed/IUwjCsRYMSU",
+      thumb: "https://i.imgur.com/owEuH1t.png",
+      level: "advanced",
+      format: "vertical",
+      title: "horizontal",
+      client: "Vladimir Shagarov / Бизнес"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/C52joEy778c",
+      thumb: "https://i.imgur.com/IMpZpks.jpeg",
+      level: "basic",
+      format: "vertical",
+      title: "Базовый монтаж",
+      client: "Тестовое / Работа"
+    },
+    
     // Чтобы добавить ещё видео — скопируй блок ниже, раскомментируй и заполни:
     // {
     //   embedUrl: "ВСТАВЬ_ССЫЛКУ_EMBED",

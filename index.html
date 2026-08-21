@@ -728,6 +728,26 @@
     align-items: start;
   }
 
+  .compare-works-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    width: 340px;
+  }
+  .compare-works-grid .gallery-info-title,
+  .compare-works-grid .gallery-info-client { display: none; }
+  .compare-works-grid .gallery-info { padding-top: 0.5rem; }
+  .compare-works-grid .gallery-info-level { font-size: 0.65rem; }
+  .compare-works-empty {
+    grid-column: 1 / -1;
+    border: 1px dashed var(--border);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+
   /* PRICING */
   #pricing { background: var(--bg2); }
   .pricing-grid {
@@ -1130,6 +1150,7 @@
     .compare-tabs { width: 100%; }
     .tab-btn { flex: 1; padding: 0.6rem 0.5rem; font-size: 0.7rem; }
     .video-frame { width: 100%; }
+    .compare-works-grid { width: 100%; }
 
     /* Модал — занимает экран правильно */
     .modal-overlay { padding: 1rem; align-items: flex-end; padding-bottom: 2rem; }
@@ -1342,8 +1363,8 @@
 <!-- PORTFOLIO -->
 <section id="portfolio">
   <p class="section-label">Портфолио</p>
-  <h2 class="reveal">Один материал —<br>три уровня монтажа</h2>
-  <p class="section-intro reveal">Посмотри, как меняется один и тот же ролик в зависимости от уровня обработки. Переключай вкладки и сравнивай.</p>
+  <h2 class="reveal">Три уровня<br>монтажа</h2>
+  <p class="section-intro reveal">Переключай вкладки, чтобы увидеть примеры работ и разницу в подходе на каждом уровне.</p>
 
   <div class="compare-tabs reveal">
     <button class="tab-btn active" data-tab="basic">Базовый</button>
@@ -1354,11 +1375,7 @@
   <!-- BASIC -->
   <div class="tab-panel active" id="tab-basic">
     <div class="compare-layout">
-      <div>
-        <div class="video-frame">
-         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/vKJg01lB95U" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
+      <div class="compare-works-grid" id="works-basic"></div>
       <div>
         <div class="level-badge"><span class="level-dot"></span> Базовый уровень</div>
         <h2 style="font-size:2.2rem">Базовый<br>монтаж</h2>
@@ -1375,18 +1392,7 @@
   <!-- ADVANCED -->
   <div class="tab-panel" id="tab-advanced">
     <div class="compare-layout">
-      <div>
-        <div class="video-frame">
-          <div class="video-placeholder">
-            <div class="play-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5,3 19,12 5,21"/>
-              </svg>
-            </div>
-            <span style="font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase">Вставь видео сюда</span>
-          </div>
-        </div>
-      </div>
+      <div class="compare-works-grid" id="works-advanced"></div>
       <div>
         <div class="level-badge"><span class="level-dot"></span> Продвинутый уровень</div>
         <h2 style="font-size:2.2rem">Продвинутый<br>монтаж</h2>
@@ -1404,18 +1410,7 @@
   <!-- PRO -->
   <div class="tab-panel" id="tab-pro">
     <div class="compare-layout">
-      <div>
-        <div class="video-frame">
-          <div class="video-placeholder">
-            <div class="play-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5,3 19,12 5,21"/>
-              </svg>
-            </div>
-            <span style="font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase">Вставь видео сюда</span>
-          </div>
-        </div>
-      </div>
+      <div class="compare-works-grid" id="works-pro"></div>
       <div>
         <div class="level-badge"><span class="level-dot"></span> Профессиональный уровень</div>
         <h2 style="font-size:2.2rem">Профессиональный<br>монтаж</h2>
@@ -1731,6 +1726,44 @@
     });
   }
 
+  // Топ-работы под каждым уровнем в разделе "Три уровня монтажа"
+  // Берём из того же массива VIDEOS — сколько показывать штук на уровень:
+  const WORKS_PER_LEVEL = 4;
+
+  function buildCompareWorks() {
+    ['basic', 'advanced', 'pro'].forEach(level => {
+      const container = document.getElementById('works-' + level);
+      if (!container) return;
+      const items = VIDEOS.filter(v => v.level === level).slice(0, WORKS_PER_LEVEL);
+
+      if (items.length === 0) {
+        container.innerHTML = `<div class="compare-works-empty">Работы этого уровня скоро появятся</div>`;
+        return;
+      }
+
+      container.innerHTML = items.map(v => `
+        <div class="gallery-item reveal" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}">
+          <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : ''}">
+            <img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
+            <div class="gallery-thumb-cover">
+              <div class="gallery-play">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <p class="gallery-info-level">${LEVEL_LABELS[v.level]}</p>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.gallery-item').forEach(el => {
+        observer.observe(el);
+        el.addEventListener('click', () => openModal(el.dataset.embed, el.dataset.format));
+      });
+    });
+  }
+
   // Filters
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1794,6 +1827,7 @@
 
   // Init gallery
   buildGallery('all');
+  buildCompareWorks();
 
   // Form submit handled natively by Formspree (action + method="POST")
 

@@ -845,6 +845,31 @@
     border-color: var(--accent);
     color: #fff;
   }
+
+  .pricing-note {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 640px;
+  }
+  .pricing-note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  .pricing-note-mark {
+    color: var(--accent);
+    font-size: 1rem;
+    line-height: 1.4;
+    flex-shrink: 0;
+  }
+  .pricing-note-item p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.5;
+  }
   .plan-cta.accent:hover { background: var(--accent2); border-color: var(--accent2); }
 
   /* CONTACT */
@@ -1456,7 +1481,7 @@
     <div class="pricing-card">
       <p class="plan-name">Базовый</p>
       <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Для тех, кому нужен аккуратный результат</p>
-      <p class="plan-price">1 500 <span>₽ / ролик</span></p>
+      <p class="plan-price">1 000 <span>₽ / ролик</span></p>
       <p class="plan-desc">Короткий вертикальный ролик до 90 сек</p>
       <ul class="plan-features">
         <li>Нарезка и склейка материала</li>
@@ -1471,7 +1496,7 @@
     <div class="pricing-card featured">
       <p class="plan-name">Продвинутый</p>
       <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Для тех, кто хочет выделиться</p>
-      <p class="plan-price">3 000 <span>₽ / ролик</span></p>
+      <p class="plan-price">2 500 <span>₽ / ролик</span></p>
       <p class="plan-desc">Короткий вертикальный ролик до 90 сек</p>
       <ul class="plan-features">
         <li>Всё из базового тарифа</li>
@@ -1486,7 +1511,7 @@
     <div class="pricing-card">
       <p class="plan-name">Профессиональный</p>
       <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Для серьёзного контента и брендов</p>
-      <p class="plan-price">8 000 <span>₽ / ролик</span></p>
+      <p class="plan-price">5 000 <span>₽ / ролик</span></p>
       <p class="plan-desc">Короткий вертикальный ролик до 90 сек</p>
       <ul class="plan-features">
         <li>Всё из продвинутого тарифа</li>
@@ -1499,7 +1524,18 @@
     </div>
 
   </div>
-  <p style="margin-top:1.5rem;font-size:0.82rem;color:var(--muted);font-weight:300">* Цены указаны для роликов до 90 секунд. Длинные форматы — по договорённости.</p>
+  <p style="margin-top:1.5rem;font-size:0.82rem;color:var(--muted);font-weight:300">* Цены указаны для роликов до 90 секунд.</p>
+
+  <div class="pricing-note reveal">
+    <div class="pricing-note-item">
+      <span class="pricing-note-mark">＊</span>
+      <p>Цена ориентировочная и может меняться в зависимости от задачи — объёма материала, сложности графики и сроков. Точную стоимость обсудим индивидуально.</p>
+    </div>
+    <div class="pricing-note-item">
+      <span class="pricing-note-mark">＊</span>
+      <p>Длинный формат роликов (лонги, YouTube-видео и т.д.) — считаем отдельно, обсуждается индивидуально.</p>
+    </div>
+  </div>
 </section>
 
 <!-- CONTACT -->

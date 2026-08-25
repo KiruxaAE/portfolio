@@ -1009,6 +1009,26 @@
   }
   .filter-btn.active { background: var(--accent); border-color: var(--accent); }
 
+  .gallery-more {
+    display: none;
+    margin: 2.5rem auto 0;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.9rem 2.4rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .gallery-more:hover {
+    border-color: var(--accent);
+    background: rgba(139,31,48,0.08);
+  }
+  .gallery-more.visible { display: block; }
+
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -1518,6 +1538,7 @@
     <button class="filter-btn" data-filter="pro">Профессиональный</button>
   </div>
   <div class="gallery-grid reveal" id="galleryGrid"></div>
+  <button class="gallery-more" id="galleryMore">Показать ещё</button>
 </section>
 
 <!-- Modal -->
@@ -1769,10 +1790,25 @@
     pro: 'Профессиональный'
   };
 
-  function buildGallery(filter) {
+  // На мобильном показываем не все работы сразу, а с кнопкой "Показать ещё"
+  const GALLERY_INITIAL_MOBILE = 4;
+  const GALLERY_STEP_MOBILE = 8;
+  let galleryCurrentFilter = 'all';
+  let galleryVisibleCount = Infinity;
+  const isMobileGallery = () => window.matchMedia('(max-width: 600px)').matches;
+
+  function buildGallery(filter, resetCount = true) {
+    galleryCurrentFilter = filter;
     const grid = document.getElementById('galleryGrid');
+    const moreBtn = document.getElementById('galleryMore');
     const items = filter === 'all' ? VIDEOS : VIDEOS.filter(v => v.level === filter);
-    grid.innerHTML = items.map((v, i) => `
+
+    if (resetCount) {
+      galleryVisibleCount = isMobileGallery() ? GALLERY_INITIAL_MOBILE : Infinity;
+    }
+    const visibleItems = items.slice(0, galleryVisibleCount);
+
+    grid.innerHTML = visibleItems.map((v, i) => `
       <div class="gallery-item reveal" data-id="${i}" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}" ${v.format === 'horizontal' ? 'style="grid-column: span 2"' : ''}>
         <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : ''}">
           <img src="${v.thumb}"
@@ -1795,7 +1831,24 @@
       observer.observe(el);
       el.addEventListener('click', () => openModal(el.dataset.embed, el.dataset.format));
     });
+
+    moreBtn.classList.toggle('visible', visibleItems.length < items.length);
   }
+
+  document.getElementById('galleryMore').addEventListener('click', () => {
+    galleryVisibleCount += GALLERY_STEP_MOBILE;
+    buildGallery(galleryCurrentFilter, false);
+  });
+
+  // Если пользователь меняет ориентацию/ширину так, что переходит границу мобильного брейкпоинта — пересчитать
+  let lastIsMobile = isMobileGallery();
+  window.addEventListener('resize', () => {
+    const nowMobile = isMobileGallery();
+    if (nowMobile !== lastIsMobile) {
+      lastIsMobile = nowMobile;
+      buildGallery(galleryCurrentFilter, true);
+    }
+  });
 
   // Топ-работы под каждым уровнем в разделе "Три уровня монтажа"
   // Берём из того же массива VIDEOS — сколько показывать штук на уровень:

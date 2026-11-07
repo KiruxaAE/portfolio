@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кирилл — Видеомонтаж</title>
+<title>Кирилл — Видеомонтаж &amp; Продюсирование удержания</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -12,15 +12,23 @@
   :root {
     --bg: #080808;
     --bg2: #111111;
-    --bg3: #1a1a1a;
+    --bg3: #161616;
     --text: #f0ede8;
-    --muted: #888;
+    --muted: #8e8e8e;
     --accent: #8B1F30;
     --accent2: #b02840;
     --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(139,31,48,0.45);
+    --container: 1200px;
   }
 
-  /* ── SCROLL PROGRESS BAR ── */
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  /* SCROLL PROGRESS */
   #scroll-progress {
     position: fixed;
     top: 0; left: 0;
@@ -29,10 +37,10 @@
     background: var(--accent);
     z-index: 999;
     transition: width 0.1s linear;
-    box-shadow: 0 0 8px var(--accent);
+    box-shadow: 0 0 10px var(--accent);
   }
 
-  /* ── CUSTOM CURSOR ── */
+  /* CURSOR */
   .cursor-dot {
     position: fixed;
     top: 0; left: 0;
@@ -42,8 +50,7 @@
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
-    transition: transform 0.08s ease, opacity 0.2s;
-    box-shadow: 0 0 12px var(--accent), 0 0 24px rgba(139,31,48,0.4);
+    box-shadow: 0 0 12px var(--accent);
   }
   .cursor-ring {
     position: fixed;
@@ -54,156 +61,24 @@
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s;
+    transition: width 0.2s ease, height 0.2s ease, border-color 0.2s;
   }
   body:has(a:hover) .cursor-ring,
   body:has(button:hover) .cursor-ring {
-    width: 56px; height: 56px;
+    width: 54px; height: 54px;
     border-color: var(--accent);
   }
 
-  /* ── FILM GRAIN ── */
+  /* FILM GRAIN */
   .film-grain {
     position: fixed;
     inset: 0;
     z-index: 9000;
     pointer-events: none;
-    opacity: 0.032;
+    opacity: 0.03;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     background-size: 200px 200px;
   }
-  @keyframes grain {
-    0%,100% { transform: translate(0,0); }
-    10% { transform: translate(-3%,-4%); }
-    20% { transform: translate(3%,3%); }
-    30% { transform: translate(-4%,1%); }
-    40% { transform: translate(2%,-3%); }
-    50% { transform: translate(-2%,4%); }
-    60% { transform: translate(4%,-1%); }
-    70% { transform: translate(-3%,2%); }
-    80% { transform: translate(1%,-4%); }
-    90% { transform: translate(-1%,3%); }
-  }
-
-  /* ── MARQUEE ── */
-  .marquee-section {
-    overflow: hidden;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 0;
-    background: var(--bg2);
-  }
-  .marquee-track {
-    display: flex;
-    gap: 0;
-    width: max-content;
-    animation: marquee 22s linear infinite;
-  }
-  .marquee-track:hover { animation-play-state: paused; }
-  .marquee-item {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    padding: 0 2rem;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.14em;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .marquee-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-25%); }
-  }
-
-  /* ── STAT COUNTERS in about ── */
-  .about-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-top: 2.5rem;
-  }
-  .stat-item {
-    padding: 1.4rem 1.2rem;
-    text-align: center;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    transition: transform 0.2s, border-color 0.2s;
-  }
-  .stat-item:hover {
-    transform: translateY(-4px);
-    border-color: rgba(139,31,48,0.4);
-  }
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.4rem;
-    line-height: 1;
-    color: var(--text);
-    display: block;
-  }
-  .stat-num .stat-accent { color: var(--accent); }
-  .stat-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.3rem;
-    display: block;
-  }
-
-  /* ── PRICING CARD HOVER ── */
-  .pricing-card {
-    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-  }
-  .pricing-card:not(.featured):hover {
-    transform: translateY(-6px);
-    border-color: rgba(139,31,48,0.4);
-  }
-  .pricing-card.featured:hover {
-    transform: translateY(-1.5rem);
-  }
-  .pricing-card:hover .plan-cta:not(.accent) {
-    border-color: rgba(139,31,48,0.4);
-  }
-
-  /* ── NAV PROGRESS INDICATOR ── */
-  .nav-logo { position: relative; }
-
-  /* ── HERO SCAN LINE ── */
-  #hero::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(139,31,48,0.4), transparent);
-    animation: scan 4s ease-in-out infinite;
-    pointer-events: none;
-  }
-  @keyframes scan {
-    0%   { top: 0%; opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-  }
-
-  /* ── GALLERY ITEM HOVER GLOW ── */
-  .gallery-item:hover .gallery-thumb {
-    border-color: rgba(139,31,48,0.5);
-    box-shadow: 0 0 20px rgba(139,31,48,0.15);
-  }
-
-  /* ── REVEAL STAGGER ── */
-  .reveal { transition-delay: 0s; }
-  .reveal-d1 { transition-delay: 0.1s; }
-  .reveal-d2 { transition-delay: 0.2s; }
-  .reveal-d3 { transition-delay: 0.3s; }
 
   body {
     background: var(--bg);
@@ -214,44 +89,82 @@
     overflow-x: hidden;
   }
 
-  /* NAV */
+  /* BACKGROUND GRID & GLOW */
+  .page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .page-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, black 25%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, black 25%, transparent 85%);
+    opacity: 0.45;
+  }
+  .page-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 45% at 60% 5%, rgba(139,31,48,0.16) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 45% at 15% 95%, rgba(139,31,48,0.09) 0%, transparent 55%);
+  }
+
+  /* NAVIGATION */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 1.1rem 5vw;
+  }
+  .nav-inner {
+    max-width: var(--container);
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.25rem 5vw;
-    background: rgba(8,8,8,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
   }
   .nav-logo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     letter-spacing: 0.08em;
     color: var(--text);
     text-decoration: none;
+    transition: opacity 0.2s;
   }
+  .nav-logo:hover { opacity: 0.85; }
   .nav-logo span { color: var(--accent); }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+    align-items: center;
+  }
   .nav-links a {
     color: var(--muted);
     text-decoration: none;
     font-size: 0.85rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
+    font-weight: 400;
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--text); }
-
   .nav-toggle {
     display: none;
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    width: 26px; height: 20px;
+    width: 28px; height: 22px;
     background: none;
     border: none;
     cursor: pointer;
@@ -267,41 +180,35 @@
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  /* SECTIONS */
-  section { padding: 7rem 5vw; position: relative; overflow: hidden; }
+  /* GENERAL SECTION STRUCTURE */
+  section {
+    padding: 7rem 5vw;
+    position: relative;
+  }
   .section-label {
     font-size: 0.75rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-weight: 500;
   }
-
-  /* ── AMBIENT BACKGROUND (glow + grid) reused on every section after the hero ── */
-  .page-bg {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+    text-align: center;
   }
-  .page-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, black 25%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, black 25%, transparent 85%);
-    opacity: 0.5;
-  }
-  .page-glow {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 70% 45% at 60% 5%, rgba(139,31,48,0.16) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 45% at 15% 95%, rgba(139,31,48,0.09) 0%, transparent 55%);
+  .section-intro {
+    max-width: 640px;
+    margin: 0 auto 3.5rem auto;
+    color: rgba(240,237,232,0.65);
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.6;
   }
 
   /* HERO */
@@ -309,29 +216,31 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     text-align: center;
-    padding-bottom: 8rem;
-    position: relative;
-    overflow: hidden;
+    padding: 7rem 5vw 4rem;
   }
-  .hero-content-reveal { position: relative; }
-  .hero-content { position: relative; max-width: 900px; margin: 0 auto; will-change: transform, opacity; }
+  .hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
   .hero-chips {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 0.9rem;
-    margin-bottom: 2.2rem;
-    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 0.4rem 1.2rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
   }
   .hero-status {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
     font-size: 0.75rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--muted);
   }
@@ -340,62 +249,33 @@
     border-radius: 50%;
     background: #4ade80;
     box-shadow: 0 0 8px rgba(74,222,128,0.7);
-    flex-shrink: 0;
     animation: status-pulse 2s ease-in-out infinite;
   }
   @keyframes status-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.45; transform: scale(0.75); }
+    50% { opacity: 0.4; transform: scale(0.75); }
   }
-  .hero-chip-divider {
-    width: 1px;
-    height: 0.9rem;
-    background: var(--border);
-  }
-  .hero-tag {
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+  .hero-chip-divider { width: 1px; height: 0.9rem; background: var(--border); }
+  .hero-tag { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); }
   h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4.5rem, 13vw, 12rem);
-    line-height: 0.86;
+    font-size: clamp(4.5rem, 12vw, 10.5rem);
+    line-height: 0.88;
     letter-spacing: -0.01em;
     margin-bottom: 2rem;
   }
   h1 em {
     font-style: normal;
-    position: relative;
-    display: inline-block;
     color: transparent;
     background: linear-gradient(100deg, var(--accent2) 0%, #ff5d78 45%, var(--accent) 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    padding-bottom: 0.05em;
-  }
-  h1 em::after {
-    content: '';
-    position: absolute;
-    left: 0.04em;
-    right: 0.04em;
-    bottom: 0.02em;
-    height: 0.08em;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--accent2), var(--accent));
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: underline-grow 1s cubic-bezier(.65,0,.35,1) 0.5s forwards;
-  }
-  @keyframes underline-grow {
-    to { transform: scaleX(1); }
   }
   .hero-sub {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: var(--muted);
-    max-width: 480px;
-    margin: 0 auto 3rem;
+    max-width: 580px;
+    margin: 0 auto 2.8rem;
     font-weight: 300;
   }
   .hero-cta {
@@ -405,239 +285,90 @@
     background: var(--accent);
     color: #fff;
     text-decoration: none;
-    padding: 0.9rem 2.4rem;
+    padding: 0.95rem 2.6rem;
     font-size: 0.85rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-weight: 500;
-    transition: background 0.25s, transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s;
-  }
-  .hero-cta svg {
-    width: 14px; height: 14px;
-    transition: transform 0.25s cubic-bezier(.2,.8,.2,1);
+    border-radius: 4px;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
   }
   .hero-cta:hover {
     background: var(--accent2);
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px -10px rgba(176,40,64,0.6);
+    box-shadow: 0 12px 28px -8px rgba(176,40,64,0.6);
   }
-  .hero-cta:hover svg { transform: translate(3px, -3px); }
+  .hero-cta svg { width: 14px; height: 14px; }
 
-  /* HERO VISUAL — TIMELINE MOCKUP (заполняет пустое пространство сверху) */
-  .hero-visual {
-    display: none;
-    position: absolute;
-    top: 11rem;
-    right: 6vw;
-    width: clamp(300px, 28vw, 400px);
-    z-index: 1;
-    will-change: transform;
+  /* MARQUEE */
+  .marquee-section {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.1rem 0;
+    background: var(--bg2);
   }
-  /* hero-visual disabled: overlaps centered hero content */
-  @keyframes hero-visual-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 24s linear infinite;
   }
-  .timeline-panel {
-    animation: hero-visual-float 6s ease-in-out infinite;
-    background: rgba(17,17,17,0.75);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 3px;
-    padding: 1.1rem 1.2rem 1.3rem;
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02);
-  }
-  .timeline-head {
+  .marquee-track:hover { animation-play-state: paused; }
+  .marquee-item {
     display: flex;
     align-items: center;
-    gap: 0.55rem;
-    margin-bottom: 1.1rem;
-    padding-bottom: 0.9rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .tc-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent2);
-    box-shadow: 0 0 8px rgba(176,40,64,0.8);
-    flex-shrink: 0;
-    animation: status-pulse 1.6s ease-in-out infinite;
-  }
-  .tc-code {
+    gap: 2rem;
+    padding: 0 2rem;
     font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.05em;
-    font-size: 0.95rem;
-    color: var(--text);
-  }
-  .tc-code b { color: var(--accent2); font-weight: 400; }
-  .tc-file {
-    margin-left: auto;
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
+    font-size: 1.15rem;
+    letter-spacing: 0.14em;
     color: var(--muted);
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 45%;
   }
-  .timeline-tracks { position: relative; display: flex; flex-direction: column; gap: 0.5rem; }
-  .track-row { display: flex; align-items: center; gap: 0.6rem; }
-  .track-label {
-    width: 20px;
-    flex-shrink: 0;
-    font-size: 0.62rem;
-    letter-spacing: 0.03em;
-    color: var(--muted);
-    font-family: 'Bebas Neue', sans-serif;
+  .marquee-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
   }
-  .track-lane {
-    position: relative;
-    flex: 1;
-    height: 20px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .clip {
-    position: absolute;
-    top: 2px; bottom: 2px;
-    border-radius: 1px;
-  }
-  .clip-video {
-    background: linear-gradient(135deg, rgba(139,31,48,0.55), rgba(139,31,48,0.25));
-    border: 1px solid rgba(139,31,48,0.5);
-  }
-  .clip-fx {
-    background: linear-gradient(135deg, rgba(240,237,232,0.14), rgba(240,237,232,0.05));
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .track-audio {
-    height: 26px;
-    display: flex;
-    align-items: center;
-    padding: 0 2px;
-    gap: 2px;
-  }
-  .wave-bar {
-    flex: 1;
-    background: rgba(240,237,232,0.35);
-    border-radius: 1px;
-    align-self: center;
-  }
-  .playhead {
-    position: absolute;
-    top: -2px; bottom: -2px;
-    width: 1px;
-    background: var(--accent2);
-    box-shadow: 0 0 6px rgba(176,40,64,0.9);
-    animation: playhead-scrub 7s linear infinite;
-  }
-  .playhead::before {
-    content: '';
-    position: absolute;
-    top: -4px; left: 50%;
-    transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 5px solid var(--accent2);
-  }
-  @keyframes playhead-scrub {
-    0%   { left: 0%; opacity: 0; }
-    6%   { opacity: 1; }
-    94%  { opacity: 1; }
-    100% { left: 100%; opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .timeline-panel, .playhead, .tc-dot, #hero::after { animation: none !important; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
   /* ABOUT */
-  #about { }
   .about-grid {
+    max-width: var(--container);
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
+    grid-template-columns: 420px 1fr;
+    gap: 4.5rem;
     align-items: center;
   }
   .about-photo {
     aspect-ratio: 3/4;
-    max-width: 500px;
     width: 100%;
-    justify-self: center;
     background: var(--bg3);
     border: 1px solid var(--border);
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
     position: relative;
     overflow: hidden;
   }
-  /* Actual photo — fills container perfectly */
   .about-photo img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center top;
     display: block;
   }
-  .about-photo::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(139,31,48,0.15) 0%, transparent 60%);
-    z-index: 1;
-    pointer-events: none;
-  }
-  /* Decorative corner accent */
-  .about-photo::after {
-    content: '';
-    position: absolute;
-    bottom: 14px; right: 14px;
-    width: 70px; height: 70px;
-    border-right: 2px solid var(--accent);
-    border-bottom: 2px solid var(--accent);
-    border-radius: 0 0 4px 0;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .about-photo-placeholder {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--muted);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 1;
-  }
-  .about-photo-placeholder svg { opacity: 0.3; }
-  h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    line-height: 1;
-    letter-spacing: 0.03em;
-    margin-bottom: 1.5rem;
-  }
+  .about-text h2 { text-align: left; margin-bottom: 1.2rem; }
   .about-text p {
     color: rgba(240,237,232,0.7);
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.1rem;
     font-weight: 300;
   }
   .skills-row {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 2rem;
+    margin-top: 1.8rem;
   }
   .skill-tag {
     font-size: 0.75rem;
@@ -647,225 +378,433 @@
     padding: 0.4rem 0.9rem;
     color: var(--muted);
     border-radius: 20px;
-    transition: border-color 0.2s, color 0.2s;
+    background: rgba(255,255,255,0.02);
   }
-  .skill-tag:hover {
-    border-color: rgba(139,31,48,0.5);
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .stat-item {
+    padding: 1.2rem 1rem;
+    text-align: center;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    line-height: 1;
     color: var(--text);
   }
-
-  /* PORTFOLIO */
-  #portfolio { }
-  .section-intro {
-    max-width: 560px;
-    color: rgba(240,237,232,0.6);
-    font-weight: 300;
-    margin-bottom: 4rem;
-  }
-
-  .compare-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 2.5rem;
-    border: 1px solid var(--border);
-    width: fit-content;
-  }
-  .tab-btn {
-    background: none;
-    border: none;
+  .stat-accent { color: var(--accent); }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--muted);
-    padding: 0.7rem 1.8rem;
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* CASES */
+  .cases-grid {
+    max-width: var(--container);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .case-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3rem;
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  }
+  .case-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 20px 48px -16px rgba(0,0,0,0.7);
+    transform: translateY(-3px);
+  }
+  .case-card.reverse .case-info { order: 2; }
+  .case-card.reverse .case-media-side { order: 1; }
+  .case-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+  }
+  .case-badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(139,31,48,0.12);
+    border: 1px solid rgba(139,31,48,0.35);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-weight: 500;
+  }
+  .case-badge.highlight {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .case-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 2.7rem);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+  }
+  .case-client-lead {
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+  }
+  .case-desc {
+    color: rgba(240,237,232,0.75);
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+  .case-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 2rem;
+  }
+  .case-highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    font-size: 0.88rem;
+    color: rgba(240,237,232,0.75);
+    font-weight: 300;
+  }
+  .case-highlights li strong { color: var(--text); font-weight: 500; }
+  .case-highlights li::before {
+    content: '';
+    width: 14px;
+    height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.65em;
+  }
+  .case-play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(139,31,48,0.15);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 0.75rem 1.6rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .case-play-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  .case-media-side {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .case-media-side.full-width {
+    grid-template-columns: 1fr;
+  }
+  .case-preview-card {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--bg3);
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .case-preview-card.vertical {
+    aspect-ratio: 9/16;
+    max-height: 420px;
+    width: 100%;
+  }
+  .case-preview-card.horizontal {
+    aspect-ratio: 16/9;
+    width: 100%;
+  }
+  .case-preview-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 16px 36px -12px rgba(139,31,48,0.4);
+  }
+  .case-preview-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .case-preview-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.38);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .case-preview-card:hover .case-preview-overlay { background: rgba(0,0,0,0.2); }
+  .case-preview-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(0,0,0,0.65);
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+    backdrop-filter: blur(4px);
+  }
+  .gallery-play {
+    width: 48px; height: 48px;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.4);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .case-preview-card:hover .gallery-play {
+    border-color: var(--accent);
+    transform: scale(1.08);
+  }
+
+  /* APPROACH */
+  .approach-grid {
+    max-width: var(--container);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+  .approach-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2.4rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .approach-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+    box-shadow: 0 16px 36px -16px rgba(0,0,0,0.6);
+  }
+  .approach-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+  .approach-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+  }
+  .approach-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* GALLERY */
+  .gallery-filters {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2.8rem;
+  }
+  .filter-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.5rem 1.4rem;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
     transition: all 0.2s;
-    border-right: 1px solid var(--border);
+    border-radius: 2px;
   }
-  .tab-btn:last-child { border-right: none; }
-  .tab-btn.active {
-    background: var(--accent);
-    color: #fff;
+  .filter-btn.active, .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
   }
-  .tab-btn:hover:not(.active) { color: var(--text); }
-
-  .video-frame {
-    width: 340px;
-    aspect-ratio: 9/16;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); }
+  .gallery-grid {
+    max-width: var(--container);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 1.5rem;
   }
-  .video-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    color: var(--muted);
-  }
-  .play-btn {
-    width: 64px;
-    height: 64px;
-    border: 1px solid rgba(139,31,48,0.6);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .gallery-item {
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: transform 0.25s;
   }
-  .play-btn:hover { border-color: var(--accent); }
-  .play-btn svg { margin-left: 4px; }
-
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  .level-badge {
-    display: inline-flex;
+  .gallery-item:hover { transform: translateY(-4px); }
+  .gallery-thumb {
+    width: 100%;
+    aspect-ratio: 9/16;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .gallery-item:hover .gallery-thumb {
+    border-color: var(--border-hover);
+    box-shadow: 0 16px 36px -16px rgba(0,0,0,0.7);
+  }
+  .gallery-thumb.horizontal { aspect-ratio: 16/9; }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery-thumb-cover {
+    position: absolute;
+    inset: 0;
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    transition: background 0.2s;
+  }
+  .gallery-item:hover .gallery-thumb-cover { background: rgba(0,0,0,0.15); }
+  .gallery-info { padding: 0.85rem 0 0; }
+  .gallery-info-level {
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-weight: 500;
     color: var(--accent);
-    background: rgba(139,31,48,0.12);
-    border: 1px solid rgba(139,31,48,0.35);
-    border-radius: 999px;
-    padding: 0.4rem 0.9rem 0.4rem 0.7rem;
-    margin-bottom: 1.4rem;
+    margin-bottom: 0.25rem;
   }
-  .level-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .features-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-top: 1.4rem;
-  }
-  .features-list li {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
+  .gallery-info-title {
     font-size: 0.9rem;
-    color: rgba(240,237,232,0.7);
-    font-weight: 300;
+    font-weight: 400;
   }
-  .features-list li::before {
-    content: '';
-    width: 16px;
-    height: 1px;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .compare-layout {
-    display: grid;
-    grid-template-columns: 340px 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-  .compare-info {
-    position: relative;
-    overflow: hidden;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 4px;
-    padding: 2.4rem 2.6rem;
-    max-width: 560px;
-  }
-  .compare-info h2 { position: relative; z-index: 1; }
-  .compare-info .level-badge,
-  .compare-info .features-list { position: relative; z-index: 1; }
-  .compare-info::after {
-    content: attr(data-num);
-    position: absolute;
-    right: 0.5rem;
-    bottom: -1.4rem;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 9rem;
-    line-height: 1;
-    color: rgba(240,237,232,0.035);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .compare-works-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    width: 340px;
-  }
-  .compare-works-grid .gallery-info-title,
-  .compare-works-grid .gallery-info-client { display: none; }
-  .compare-works-grid .gallery-info { padding-top: 0.5rem; }
-  .compare-works-grid .gallery-info-level { font-size: 0.65rem; }
-  .compare-works-empty {
-    grid-column: 1 / -1;
-    border: 1px dashed var(--border);
-    padding: 1.5rem 1rem;
-    text-align: center;
-    color: var(--muted);
+  .gallery-info-client {
     font-size: 0.8rem;
-    letter-spacing: 0.04em;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 0.1rem;
+  }
+  .gallery-more {
+    display: none;
+    margin: 3rem auto 0;
+    background: rgba(139,31,48,0.14);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 0.95rem 2.6rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+  }
+  .gallery-more:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px -10px rgba(139,31,48,0.6);
+  }
+  .gallery-more.visible {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
   }
 
   /* PRICING */
-  #pricing { }
   .pricing-grid {
+    max-width: var(--container);
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    margin-top: 3rem;
-    align-items: start;
+    align-items: stretch;
   }
   .pricing-card {
     background: var(--bg3);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 2.5rem 2rem;
+    padding: 2.6rem 2.2rem;
     position: relative;
-    box-shadow: 0 24px 48px -30px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+  .pricing-card:not(.featured):hover {
+    transform: translateY(-5px);
+    border-color: var(--border-hover);
   }
   .pricing-card.featured {
-    background: var(--bg3);
     border-color: rgba(139,31,48,0.55);
-    transform: translateY(-1.25rem);
-    padding-top: 3rem;
-    box-shadow: 0 30px 60px -20px rgba(139,31,48,0.3), 0 0 0 1px rgba(139,31,48,0.15);
+    background: #181415;
+    box-shadow: 0 20px 48px -20px rgba(139,31,48,0.35);
   }
+  .pricing-card.featured:hover { transform: translateY(-5px); }
   .pricing-card.featured::before {
-    content: 'Популярный';
+    content: 'Популярный выбор';
     position: absolute;
-    top: -0.9rem; left: 50%;
+    top: -0.85rem; left: 50%;
     transform: translateX(-50%);
     background: var(--accent);
     color: #fff;
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 0.3rem 1rem;
+    padding: 0.3rem 1.1rem;
     border-radius: 3px;
     white-space: nowrap;
   }
   .plan-name {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     letter-spacing: 0.06em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
   .plan-price {
     font-size: 2.8rem;
@@ -873,16 +812,13 @@
     line-height: 1;
     margin: 1.2rem 0 0.3rem;
   }
-  .plan-price span {
-    font-size: 1rem;
-    color: var(--muted);
-  }
+  .plan-price span { font-size: 1rem; color: var(--muted); }
   .plan-desc {
     font-size: 0.85rem;
     color: var(--muted);
     font-weight: 300;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.8rem;
     border-bottom: 1px solid var(--border);
   }
   .plan-features {
@@ -890,10 +826,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    margin-bottom: 2.5rem;
+    flex: 1;
+    margin-bottom: 2.2rem;
   }
   .plan-features li {
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     color: rgba(240,237,232,0.75);
     display: flex;
     align-items: flex-start;
@@ -912,15 +849,17 @@
   .plan-cta {
     display: block;
     text-align: center;
-    padding: 0.85rem;
-    font-size: 0.8rem;
+    padding: 0.9rem;
+    font-size: 0.82rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.2s;
     border: 1px solid var(--border);
     color: var(--muted);
+    border-radius: 4px;
+    margin-top: auto;
+    transition: all 0.2s;
   }
   .plan-cta:hover { border-color: var(--accent); color: var(--text); }
   .plan-cta.accent {
@@ -928,216 +867,79 @@
     border-color: var(--accent);
     color: #fff;
   }
-
+  .plan-cta.accent:hover { background: var(--accent2); border-color: var(--accent2); }
   .pricing-note {
-    margin-top: 1rem;
+    max-width: var(--container);
+    margin: 2rem auto 0;
     display: flex;
     flex-direction: column;
-    gap: 0.9rem;
-    max-width: 640px;
+    gap: 0.8rem;
   }
-  .pricing-note-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.7rem;
-  }
-  .pricing-note-mark {
-    color: var(--accent);
-    font-size: 1rem;
-    line-height: 1.4;
-    flex-shrink: 0;
-  }
-  .pricing-note-item p {
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-weight: 300;
-    line-height: 1.5;
-  }
-  .plan-cta.accent:hover { background: var(--accent2); border-color: var(--accent2); }
+  .pricing-note-item { display: flex; align-items: flex-start; gap: 0.6rem; }
+  .pricing-note-mark { color: var(--accent); font-size: 1rem; flex-shrink: 0; line-height: 1.4; }
+  .pricing-note-item p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
 
   /* CONTACT */
-  #contact { }
   .contact-info {
-    max-width: 640px;
+    max-width: var(--container);
     margin: 0 auto;
     text-align: center;
-  }
-  .contact-info h2 { margin-bottom: 1rem; }
-  .contact-info p {
-    color: rgba(240,237,232,0.6);
-    font-weight: 300;
-    margin-bottom: 2.5rem;
   }
   .contact-links {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 1.5rem;
+    max-width: 860px;
+    margin: 0 auto;
   }
   .contact-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.9rem;
     color: var(--muted);
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 300;
-    padding: 1.8rem 1rem;
+    font-size: 0.88rem;
+    font-weight: 400;
+    padding: 2rem 1rem;
     border: 1px solid var(--border);
     border-radius: 8px;
     background: var(--bg2);
-    transition: color 0.2s, border-color 0.2s, transform 0.2s, background 0.2s, box-shadow 0.2s;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s, background 0.2s;
   }
   .contact-link:hover {
     color: var(--text);
     border-color: var(--accent);
     background: rgba(139,31,48,0.08);
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px -24px rgba(139,31,48,0.4);
   }
   .contact-link-icon {
-    width: 44px;
-    height: 44px;
+    width: 46px; height: 46px;
     border: 1px solid var(--border);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     transition: border-color 0.2s, color 0.2s;
   }
   .contact-link:hover .contact-link-icon { border-color: var(--accent); color: var(--accent); }
 
-  /* GALLERY */
-  #gallery { }
-  .gallery-filters {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 3rem;
+  /* FOOTER */
+  footer {
+    padding: 2.2rem 5vw;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
   }
-  .filter-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 0.45rem 1.2rem;
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-    border-radius: 1px;
-  }
-  .filter-btn.active, .filter-btn:hover {
-    border-color: var(--accent);
-    color: var(--text);
-  }
-  .filter-btn.active { background: var(--accent); border-color: var(--accent); }
-
-  .gallery-more {
-    display: none;
-    margin: 2.5rem auto 0;
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.9rem 2.4rem;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-family: 'DM Sans', sans-serif;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .gallery-more:hover {
-    border-color: var(--accent);
-    background: rgba(139,31,48,0.08);
-  }
-  .gallery-more.visible { display: block; }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.5rem;
-  }
-  .gallery-item {
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.25s;
-  }
-  .gallery-item:hover { transform: translateY(-5px); }
-  .gallery-thumb {
-    width: 100%;
-    aspect-ratio: 9/16;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    transition: box-shadow 0.25s, border-color 0.25s;
-  }
-  .gallery-item:hover .gallery-thumb {
-    border-color: rgba(139,31,48,0.5);
-    box-shadow: 0 20px 40px -20px rgba(0,0,0,0.7);
-  }
-  .gallery-thumb.horizontal {
-    aspect-ratio: 16/9;
-  }
-  .gallery-thumb iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    pointer-events: none;
-  }
-  .gallery-thumb-cover {
-    position: absolute;
-    inset: 0;
+  .footer-inner {
+    max-width: var(--container);
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.3);
-    transition: background 0.2s;
+    justify-content: space-between;
   }
-  .gallery-item:hover .gallery-thumb-cover { background: rgba(0,0,0,0.15); }
-  .gallery-play {
-    width: 52px;
-    height: 52px;
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(4px);
-    background: rgba(0,0,0,0.3);
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .gallery-item:hover .gallery-play {
-    border-color: var(--accent);
-    transform: scale(1.08);
-  }
-  .gallery-info {
-    padding: 0.9rem 0 0;
-  }
-  .gallery-info-level {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.25rem;
-  }
-  .gallery-info-title {
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: var(--text);
-  }
-  .gallery-info-client {
-    font-size: 0.8rem;
-    color: var(--muted);
-    font-weight: 300;
-    margin-top: 0.1rem;
-  }
+  footer p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
 
-  /* Modal */
+  /* MODAL */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -1149,23 +951,16 @@
     padding: 2rem;
   }
   .modal-overlay.open { display: flex; }
-  .modal-inner {
-    position: relative;
-    width: fit-content;
-    max-width: 100%;
-  }
+  .modal-inner { position: relative; width: fit-content; max-width: 100%; }
   .modal-close {
     position: absolute;
-    top: -2.5rem;
-    right: 0;
-    background: none;
-    border: none;
+    top: -2.5rem; right: 0;
+    background: none; border: none;
     color: var(--muted);
-    font-size: 1rem;
+    font-size: 0.9rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
     transition: color 0.2s;
   }
   .modal-close:hover { color: var(--text); }
@@ -1182,175 +977,84 @@
   }
   .modal-video iframe { width: 100%; height: 100%; border: none; }
 
-  /* FOOTER */
-  footer {
-    padding: 2rem 5vw;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  footer p { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
-
-  /* ANIMATIONS */
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
   /* RESPONSIVE */
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .about-photo { aspect-ratio: 4/5; }
-    .about-photo img { object-position: center 20%; }
-    .pricing-grid { grid-template-columns: 1fr; }
-    .pricing-card.featured { transform: none; }
-    .pricing-card.featured:hover { transform: translateY(-6px); }
-    .compare-layout { grid-template-columns: 1fr; }
+    .about-photo { max-width: 380px; margin: 0 auto; }
+    .about-text h2 { text-align: center; }
+    .case-card, .case-card.reverse { grid-template-columns: 1fr; gap: 2.4rem; padding: 2.4rem; }
+    .case-card.reverse .case-info { order: 1; }
+    .case-card.reverse .case-media-side { order: 2; }
+    .approach-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: 1fr; gap: 2rem; }
     .contact-links { grid-template-columns: 1fr; }
-    nav { padding: 1rem 4vw; }
-    .nav-links { gap: 1.5rem; }
   }
-  @media (max-width: 600px) {
+
+  @media (max-width: 820px) {
     .nav-toggle { display: flex; }
     .nav-links {
       position: fixed;
       top: 58px; left: 0; right: 0;
       flex-direction: column;
       gap: 0;
-      background: rgba(8,8,8,0.97);
-      backdrop-filter: blur(12px);
+      background: rgba(10,10,10,0.98);
       border-bottom: 1px solid var(--border);
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease;
+      transition: max-height 0.35s ease;
     }
-    .nav-links.open { max-height: 320px; }
+    .nav-links.open { max-height: 420px; }
     .nav-links li { width: 100%; }
-    .nav-links a {
-      display: block;
-      padding: 1rem 5vw;
-      border-top: 1px solid var(--border);
-    }
-    section { padding: 5rem 5vw; }
-    h1 { font-size: 3.2rem; }
-    h2 { font-size: clamp(2rem, 8vw, 3rem); }
-
-    /* Hero */
-    #hero {
-      min-height: 100svh;
-      justify-content: center;
-      padding-top: 6.5rem;
-      padding-bottom: 3rem;
-    }
-    .hero-sub { font-size: 0.95rem; }
-    .hero-chips { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
-    .hero-chip-divider { display: none; }
-    .hero-cta { width: 100%; justify-content: center; }
-
-    /* About photo — менее жёсткий кроп на маленьких экранах */
-    .about-photo { aspect-ratio: 4/5; }
-    .about-photo img { object-position: center 18%; }
-
-    /* Галерея — на мобиле всё в одну колонку, горизонтальные тоже */
-    .gallery-grid {
-      grid-template-columns: 1fr !important;
-    }
-    .gallery-item[style*="grid-column"] {
-      grid-column: span 1 !important;
-    }
-
-    /* Портфолио — вкладки */
-    .compare-tabs { width: 100%; }
-    .tab-btn { flex: 1; padding: 0.6rem 0.5rem; font-size: 0.7rem; }
-    .video-frame { width: 100%; }
-    .compare-works-grid { width: 100%; }
-
-    /* Модал — занимает экран правильно */
-    .modal-overlay { padding: 1rem; align-items: flex-end; padding-bottom: 2rem; }
-    .modal-video { width: min(100%, calc(80vh * 9 / 16)); }
-    .modal-video.horizontal { width: min(100%, calc(80vh * 16 / 9)); }
-    .modal-close { top: -2rem; font-size: 0.85rem; }
-
-    /* Прайсинг */
-    .pricing-card { padding: 2rem 1.5rem; }
-
-    /* Контакты */
-    .form-submit { width: 100%; text-align: center; }
-
-    /* Футер */
-    footer { flex-direction: column; gap: 0.4rem; text-align: center; }
-
-    /* Маркий — чуть медленнее на маленьком экране */
-    .marquee-track { animation-duration: 18s; }
+    .nav-links a { display: block; padding: 1.15rem 6vw; border-top: 1px solid var(--border); }
   }
 
-  /* Скрываем кастомный курсор на тач-устройствах */
+  @media (max-width: 600px) {
+    section { padding: 4.5rem 5vw; }
+    .case-media-side { grid-template-columns: 1fr; }
+    .approach-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr !important; }
+    .gallery-item[style*="grid-column"] { grid-column: span 1 !important; }
+    .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
   @media (hover: none) and (pointer: coarse) {
     .cursor-dot, .cursor-ring { display: none !important; }
     body { cursor: auto; }
-  }
-  /* Centered section headers: Portfolio, Gallery, Pricing */
-  #portfolio > .section-label,
-  #gallery > .section-label,
-  #pricing > .section-label,
-  #portfolio > h2,
-  #gallery > h2,
-  #pricing > h2 {
-    text-align: center;
-  }
-  #portfolio > .section-intro {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #portfolio .compare-tabs {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #gallery .gallery-filters {
-    justify-content: center;
   }
 </style>
 </head>
 <body>
 
-<!-- PAGE BACKGROUND — единый фон на всю страницу, как в hero -->
 <div class="page-bg" aria-hidden="true">
   <div class="page-grid"></div>
   <div class="page-glow"></div>
 </div>
 
-<!-- SCROLL PROGRESS -->
 <div id="scroll-progress"></div>
-
-<!-- FILM GRAIN -->
 <div class="film-grain" aria-hidden="true"></div>
-
-<!-- CURSOR -->
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
 <!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">KIRUXA</a>
-  <ul class="nav-links">
-    <li><a href="#about">Обо мне</a></li>
-    <li><a href="#portfolio">Сравнение</a></li>
-    <li><a href="#gallery">Работы</a></li>
-    <li><a href="#pricing">Цены</a></li>
-    <li><a href="#contact">Контакты</a></li>
-  </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="Открыть меню">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">KIRUXA</a>
+    <ul class="nav-links">
+      <li><a href="#about">Обо мне</a></li>
+      <li><a href="#cases">Кейсы</a></li>
+      <li><a href="#approach">Подход</a></li>
+      <li><a href="#gallery">Все работы</a></li>
+      <li><a href="#pricing">Тарифы</a></li>
+      <li><a href="#contact">Контакты</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-content-reveal reveal">
   <div class="hero-content">
     <div class="hero-chips">
       <span class="hero-status">
@@ -1358,218 +1062,248 @@
         Открыт для новых проектов
       </span>
       <span class="hero-chip-divider"></span>
-      <span class="hero-tag">Видеомонтажёр</span>
+      <span class="hero-tag">Видео-партнёр &amp; Монтажёр</span>
     </div>
     <h1>Монтаж,<br>который<br><em>цепляет</em></h1>
-    <p class="hero-sub">Базовый монтаж, продвинутый или профессиональный — выбирай уровень под свои задачи и бюджет.</p>
+    <p class="hero-sub">Удержание внимания, динамика и хуки для экспертов и брендов. Превращаю просмотры в подписчиков и заявки.</p>
     <a href="#pricing" class="hero-cta">
-      Посмотреть тарифы
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      Посмотреть форматы работы
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
     </a>
-  </div>
-  </div>
-
-  <!-- Декоративный таймлайн-мокап — заполняет пустое пространство сверху на широких экранах -->
-  <div class="hero-visual" aria-hidden="true">
-    <div class="timeline-panel reveal">
-      <div class="timeline-head">
-        <span class="tc-dot"></span>
-        <span class="tc-code">00:00:14<b>:07</b></span>
-        <span class="tc-file">reel_final_v3.mp4</span>
-      </div>
-      <div class="timeline-tracks">
-        <div class="track-row">
-          <span class="track-label">V2</span>
-          <div class="track-lane">
-            <span class="clip clip-fx" style="left:6%;width:20%"></span>
-            <span class="clip clip-fx" style="left:34%;width:16%"></span>
-            <span class="clip clip-fx" style="left:58%;width:32%"></span>
-          </div>
-        </div>
-        <div class="track-row">
-          <span class="track-label">V1</span>
-          <div class="track-lane">
-            <span class="clip clip-video" style="left:0%;width:30%"></span>
-            <span class="clip clip-video" style="left:32%;width:24%"></span>
-            <span class="clip clip-video" style="left:60%;width:40%"></span>
-          </div>
-        </div>
-        <div class="track-row">
-          <span class="track-label">A1</span>
-          <div class="track-lane track-audio">
-            <span class="wave-bar" style="height:35%"></span>
-            <span class="wave-bar" style="height:60%"></span>
-            <span class="wave-bar" style="height:25%"></span>
-            <span class="wave-bar" style="height:75%"></span>
-            <span class="wave-bar" style="height:45%"></span>
-            <span class="wave-bar" style="height:90%"></span>
-            <span class="wave-bar" style="height:30%"></span>
-            <span class="wave-bar" style="height:55%"></span>
-            <span class="wave-bar" style="height:20%"></span>
-            <span class="wave-bar" style="height:65%"></span>
-            <span class="wave-bar" style="height:40%"></span>
-            <span class="wave-bar" style="height:85%"></span>
-            <span class="wave-bar" style="height:30%"></span>
-            <span class="wave-bar" style="height:50%"></span>
-            <span class="wave-bar" style="height:70%"></span>
-            <span class="wave-bar" style="height:35%"></span>
-            <span class="wave-bar" style="height:60%"></span>
-            <span class="wave-bar" style="height:25%"></span>
-            <span class="wave-bar" style="height:80%"></span>
-            <span class="wave-bar" style="height:45%"></span>
-            <span class="wave-bar" style="height:55%"></span>
-            <span class="wave-bar" style="height:30%"></span>
-            <span class="wave-bar" style="height:65%"></span>
-            <span class="wave-bar" style="height:20%"></span>
-            <span class="wave-bar" style="height:75%"></span>
-            <span class="wave-bar" style="height:40%"></span>
-            <span class="wave-bar" style="height:50%"></span>
-            <span class="wave-bar" style="height:30%"></span>
-          </div>
-        </div>
-        <div class="playhead"></div>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- MARQUEE -->
 <div class="marquee-section" aria-hidden="true">
   <div class="marquee-track">
-    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
-    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Хуки &amp; Удержание <span class="marquee-dot"></span></div>
     <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
-    <div class="marquee-item">YouTube <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
     <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
-    <div class="marquee-item">YouTube <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
     <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
-    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Саунд-дизайн <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Режиссура съёмки <span class="marquee-dot"></span></div>
+    <div class="marquee-item">YouTube контент <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Хуки &amp; Удержание <span class="marquee-dot"></span></div>
     <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
-    <div class="marquee-item">YouTube <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Видеомонтаж <span class="marquee-dot"></span></div>
+    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
     <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
-    <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Цветокоррекция <span class="marquee-dot"></span></div>
-    <div class="marquee-item">YouTube <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Субтитры <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Саунд-дизайн <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Режиссура съёмки <span class="marquee-dot"></span></div>
+    <div class="marquee-item">YouTube контент <span class="marquee-dot"></span></div>
   </div>
 </div>
 
 <!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
-    <div class="about-photo reveal">
-      <!-- Замени photo.jpg на путь к своему фото -->
-      <img src="photo.jpeg" alt="Кирюха — видеомонтажёр" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-      <div class="about-photo-placeholder">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
-      </div>
+    <div class="about-photo">
+      <img src="photo.jpeg" alt="Кирилл — видеомонтажёр" onerror="this.style.display='none'">
     </div>
-    <div class="about-text reveal">
-      <p class="section-label">Обо мне</p>
-      <h2>Привет,<br>я Кирюха</h2>
-      <p>Видеомонтаж мне приносит кайф, поэтому я и решил работать именно в этом направлении ❤️</p>
-      <p>Сам по себе я очень открытый чувак и всегда могу найти контакт с любым человеком, а также я всегда прямо высказываю свои мысли 😗</p>
-      <p>Работаю с Reels и YouTube форматом</p>
-      <p>Каждый проект — это управление вниманием зрителя, а не просто склейка кусков</p>
+    <div class="about-text">
+      <p class="section-label" style="text-align:left;">Обо мне</p>
+      <h2>Привет, я Кирилл</h2>
+      <p>Видеомонтажёр и специалист по удержанию внимания в вертикальном и YouTube-контенте.</p>
+      <p>Работаю как видео-партнёр: глубоко погружаюсь в смыслы, помогаю докрутить хуки на первых секундах и вырезаю лишнюю «воду», спасая ролики от пролистывания.</p>
+      <p>Каждый проект для меня — это выстроенное управление вниманием и ростом досмотров, а не просто механическая склейка кадров.</p>
       <div class="skills-row">
         <span class="skill-tag">Premiere Pro</span>
         <span class="skill-tag">After Effects</span>
+        <span class="skill-tag">Sound Design</span>
+        <span class="skill-tag">Retention &amp; Hooks</span>
+        <span class="skill-tag">Режиссура съёмки</span>
       </div>
-      <div class="about-stats reveal">
+      <div class="about-stats">
         <div class="stat-item">
           <span class="stat-num" data-target="20"><span class="count">0</span><span class="stat-accent">+</span></span>
-          <span class="stat-label">Работ</span>
+          <span class="stat-label">Проектов</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num" data-target="1"><span class="count">0</span><span class="stat-accent">+</span></span>
-          <span class="stat-label">Года опыта</span>
+          <span class="stat-num" data-target="2"><span class="count">0</span><span class="stat-accent">M+</span></span>
+          <span class="stat-label">Аудитория</span>
         </div>
         <div class="stat-item">
           <span class="stat-num" data-target="100"><span class="count">0</span><span class="stat-accent">%</span></span>
-          <span class="stat-label">Довольных</span>
+          <span class="stat-label">В срок</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio">
-  <p class="section-label">Портфолио</p>
-  <h2 class="reveal">Три уровня<br>монтажа</h2>
-  <p class="section-intro reveal">Переключай вкладки, чтобы увидеть примеры работ и разницу в подходе на каждом уровне.</p>
+<!-- CASES -->
+<section id="cases">
+  <p class="section-label">Флагманские проекты</p>
+  <h2>Кейсы с реальным результатом</h2>
+  <p class="section-intro">Не просто нарезка по ТЗ, а продюсирование: от вирусных идей и режиссуры съёмки до удержания миллионной аудитории.</p>
 
-  <div class="compare-tabs reveal">
-    <button class="tab-btn active" data-tab="basic">Базовый</button>
-    <button class="tab-btn" data-tab="advanced">Продвинутый</button>
-    <button class="tab-btn" data-tab="pro">Профессиональный</button>
-  </div>
+  <div class="cases-grid">
 
-  <!-- BASIC -->
-  <div class="tab-panel active" id="tab-basic">
-    <div class="compare-layout">
-      <div class="compare-works-grid" id="works-basic"></div>
-      <div class="compare-info" data-num="01">
-        <div class="level-badge"><span class="level-dot"></span> Базовый уровень</div>
-        <h2 style="font-size:2.2rem">Базовый<br>монтаж</h2>
-        <ul class="features-list">
-          <li>Нарезка и склейка материала</li>
-          <li>Базовая цветокоррекция</li>
-          <li>Обработка звука и шумоподавление</li>
-          <li>Простые субтитры</li>
+    <!-- КЕЙС 1: БЛОГЕРЫ-МИЛЛИОННИКИ -->
+    <div class="case-card">
+      <div class="case-info">
+        <div class="case-badge-row">
+          <span class="case-badge highlight">2M+ Аудитория</span>
+          <span class="case-badge">Миллионные охваты</span>
+          <span class="case-badge">Тренды &amp; Алгоритмы</span>
+        </div>
+        <h3 class="case-title">Контент для блогеров-миллионников</h3>
+        <p class="case-client-lead">Василиса Кедрова (2M+ подписчиков) &amp; Алексей Guvmen</p>
+        <p class="case-desc">Монтаж динамичного короткого контента и промо-тизеров для авторов с миллионной аудиторией. В таких проектах цена ошибки — потеря зрителя за 1 секунду. Задача: мгновенно зацепить хуком, вычистить смысловые паузы и удержать зрителя авторским саунд-дизайном до финального кадра.</p>
+        <ul class="case-highlights">
+          <li><strong>Инженерия удержания:</strong> динамичный темпоритм без потери смысловой нити.</li>
+          <li><strong>Звуковая режиссура:</strong> плотный трендовый саунд-дизайн, усиливающий эмоции.</li>
+          <li><strong>Вирусный визуал:</strong> акцентная типографика и динамичные перебивки.</li>
         </ul>
+        <div class="case-action-btns">
+          <button class="case-play-btn" onclick="openModal('https://www.youtube.com/embed/7FqWDmHaOx4', 'vertical')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            Смотреть ролик (Василиса Кедрова)
+          </button>
+        </div>
+      </div>
+      <div class="case-media-side">
+        <div class="case-preview-card vertical" onclick="openModal('https://www.youtube.com/embed/7FqWDmHaOx4', 'vertical')">
+          <img src="https://i.imgur.com/z0WC0kf.png" alt="Василиса Кедрова Reels">
+          <div class="case-preview-overlay">
+            <div class="gallery-play">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span class="case-preview-label">Reels · 2M+ подписчиков</span>
+          </div>
+        </div>
+        <div class="case-preview-card horizontal" onclick="openModal('https://www.youtube.com/embed/0_jiiW8jitY', 'horizontal')">
+          <img src="https://i.imgur.com/26Zskvz.jpeg" alt="Алексей Guvmen Тизер">
+          <div class="case-preview-overlay">
+            <div class="gallery-play">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span class="case-preview-label">Тизер · Алексей Guvmen</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ADVANCED -->
-  <div class="tab-panel" id="tab-advanced">
-    <div class="compare-layout">
-      <div class="compare-works-grid" id="works-advanced"></div>
-      <div class="compare-info" data-num="02">
-        <div class="level-badge"><span class="level-dot"></span> Продвинутый уровень</div>
-        <h2 style="font-size:2.2rem">Продвинутый<br>монтаж</h2>
-        <ul class="features-list">
-          <li>Всё из базового уровня</li>
-          <li>Анимированные субтитры</li>
-          <li>Базовые анимации и переходы</li>
-          <li>Футажи и фоновые элементы</li>
-          <li>Динамичный ритм монтажа</li>
+    <!-- КЕЙС 2: CYBERZONE.LV -->
+    <div class="case-card reverse">
+      <div class="case-info">
+        <div class="case-badge-row">
+          <span class="case-badge highlight">60 000+ Просмотров</span>
+          <span class="case-badge">35.8K &amp; 25.3K охваты</span>
+          <span class="case-badge">Сценарий + Режиссура</span>
+          <span class="case-badge">Видео под ключ</span>
+        </div>
+        <h3 class="case-title">CYBERZONE.LV — Видеопродакшн для бизнеса</h3>
+        <p class="case-client-lead">Сеть компьютерных клубов CYBERZONE</p>
+        <p class="case-desc">Комплексный проект с полным авторским продакшном. Я разработал вирусные концепции и сценарии, сформировал детальное ТЗ для съёмки и координировал процесс: объяснял, как выставить свет, ракурс и подачу. Результат — ролики собрали более 60 000 просмотров (35.8K и 25.3K) и обеспечили прямую конверсию в гостей клуба.</p>
+        <ul class="case-highlights">
+          <li><strong>Твердые цифры:</strong> вирусный ролик турнира набрал <strong>35.8K</strong> просмотров, опрос — <strong>25.3K</strong>.</li>
+          <li><strong>Креатив &amp; Сценарий:</strong> разработка идей с гейминг-юмором и интригой в первые секунды.</li>
+          <li><strong>Постановка съёмки:</strong> режиссура ракурсов, динамика движений и подача спикера.</li>
+          <li><strong>Атмосферный монтаж:</strong> неоновый гейминг-стиль, саунд-дизайн и удержание внимания.</li>
         </ul>
+        <div class="case-action-btns">
+          <button class="case-play-btn" onclick="openModal('https://www.youtube.com/embed/Vvia1_GFVOA', 'vertical')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            Смотреть ролик (35.8K просмотров)
+          </button>
+        </div>
+      </div>
+      <div class="case-media-side">
+        <div class="case-preview-card vertical" onclick="openModal('https://www.youtube.com/embed/Vvia1_GFVOA', 'vertical')">
+          <img src="https://i.imgur.com/jtWvWik.jpeg" alt="CYBERZONE.LV Турнир CS2 (35.8K просмотров)">
+          <div class="case-preview-overlay">
+            <div class="gallery-play">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span class="case-preview-label" style="background: rgba(139,31,48,0.88); font-weight: 500;">▶ 35.8K просмотров</span>
+          </div>
+        </div>
+        <div class="case-preview-card vertical" onclick="openModal('https://www.youtube.com/embed/UAllf46uX8A', 'vertical')">
+          <img src="https://i.imgur.com/NhLBW0r.png" alt="CYBERZONE.LV Опрос CS2 (25.3K просмотров)">
+          <div class="case-preview-overlay">
+            <div class="gallery-play">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span class="case-preview-label" style="background: rgba(139,31,48,0.88); font-weight: 500;">▶ 25.3K просмотров</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- PRO -->
-  <div class="tab-panel" id="tab-pro">
-    <div class="compare-layout">
-      <div class="compare-works-grid" id="works-pro"></div>
-      <div class="compare-info" data-num="03">
-        <div class="level-badge"><span class="level-dot"></span> Профессиональный уровень</div>
-        <h2 style="font-size:2.2rem">Профессиональный<br>монтаж</h2>
-        <ul class="features-list">
-          <li>Всё из продвинутого уровня</li>
-          <li>Профессиональная моушн-графика</li>
-          <li>3D-анимации и спецэффекты</li>
-          <li>Брендинг и стилизация под бренд</li>
-          <li>Сложные визуальные решения</li>
+    <!-- КЕЙС 3: ППКУ КАДЕТСКОЕ УЧИЛИЩЕ -->
+    <div class="case-card">
+      <div class="case-info">
+        <div class="case-badge-row">
+          <span class="case-badge highlight">Full-Cycle Продакшн</span>
+          <span class="case-badge">Идея · Съёмка · Монтаж</span>
+          <span class="case-badge">Всероссийский конкурс</span>
+        </div>
+        <h3 class="case-title">ППКУ им. Героя России Ф. Кузьмина — Имиджевый фильм</h3>
+        <p class="case-client-lead">Пермское Президентское Кадетское Училище</p>
+        <p class="case-desc">Масштабный проект, созданный от первого до последнего кадра в одиночку: авторская идея, раскадровка, режиссура всего съёмочного процесса на полигонах и в корпусах училища, работа со светом и звуком на площадке. Финальный монтаж со сложной 3D/моушн-графикой и звуковой партитурой. Проект заявлен на победу во всероссийском конкурсе.</p>
+        <ul class="case-highlights">
+          <li><strong>Полный цикл в одних руках:</strong> идея &rarr; режиссура съёмки &rarr; кинематографичный монтаж.</li>
+          <li><strong>Сложный пост-продакшн:</strong> глубокий саунд-дизайн, цветокоррекция и спецэффекты.</li>
+          <li><strong>Масштаб:</strong> презентация учебного заведения на федеральном уровне.</li>
         </ul>
+        <div class="case-action-btns">
+          <button class="case-play-btn" onclick="openModal('https://www.youtube.com/embed/l4LlnvJoIA4', 'horizontal')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            Смотреть конкурсный фильм (Часть 1)
+          </button>
+        </div>
       </div>
+      <div class="case-media-side full-width">
+        <div class="case-preview-card horizontal" onclick="openModal('https://www.youtube.com/embed/l4LlnvJoIA4', 'horizontal')">
+          <img src="https://i.imgur.com/nKj8eBR.jpeg" alt="ППКУ фильм часть 1">
+          <div class="case-preview-overlay">
+            <div class="gallery-play">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span class="case-preview-label">Имиджевый фильм · Часть 1</span>
+          </div>
+        </div>
+        <div class="case-preview-card horizontal" onclick="openModal('https://www.youtube.com/embed/Xxyw_5ydXYw', 'horizontal')">
+          <img src="https://i.imgur.com/rmAdb8W.jpeg" alt="ППКУ фильм часть 2">
+          <div class="case-preview-overlay">
+            <div class="gallery-play">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span class="case-preview-label">Видеовизитка · Часть 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section id="approach">
+  <p class="section-label">Процесс и подход</p>
+  <h2>Почему видео-партнёр, а не просто монтажёр</h2>
+  <p class="section-intro">Я снимаю с автора всю рутину продакшна: от докрутки сценария до удержания холодной аудитории.</p>
+
+  <div class="approach-grid">
+    <div class="approach-card">
+      <span class="approach-num">01</span>
+      <h3>Хуки &amp; Первые 3 секунды</h3>
+      <p>Срезаю нудные вступления и «воду». Выношу главный тезис или интригу в самое начало, чтобы пробить баннерную слепоту зрителя в ленте.</p>
+    </div>
+    <div class="approach-card">
+      <span class="approach-num">02</span>
+      <h3>Сценарий &amp; Режиссура</h3>
+      <p>Подсказываю, как улучшить подачу, и даю понятные рекомендации по съёмке: ракурс, свет, динамика в кадре и интонации спикера.</p>
+    </div>
+    <div class="approach-card">
+      <span class="approach-num">03</span>
+      <h3>Плотный смысловой монтаж</h3>
+      <p>Никаких затянутых пауз. Чистый ритм, где каждый кадр двигает мысль вперёд, удерживая внимание до финального призыва к действию.</p>
+    </div>
+    <div class="approach-card">
+      <span class="approach-num">04</span>
+      <h3>Саунд-дизайн &amp; Motion</h3>
+      <p>Объёмный звук, расставляющий акценты на важных смыслах, и стильная типографика с анимацией без дешёвого визуального шума.</p>
     </div>
   </div>
 </section>
@@ -1577,15 +1311,17 @@
 <!-- GALLERY -->
 <section id="gallery">
   <p class="section-label">Все работы</p>
-  <h2 class="reveal">Больше примеров</h2>
-  <div class="gallery-filters reveal" id="galleryFilters">
+  <h2>Каталог проектов</h2>
+  <div class="gallery-filters" id="galleryFilters">
     <button class="filter-btn active" data-filter="all">Все</button>
-    <button class="filter-btn" data-filter="basic">Базовый</button>
-    <button class="filter-btn" data-filter="advanced">Продвинутый</button>
-    <button class="filter-btn" data-filter="pro">Профессиональный</button>
+    <button class="filter-btn" data-filter="business">Бизнес &amp; Эксперты</button>
+    <button class="filter-btn" data-filter="viral">Вирусные Reels</button>
+    <button class="filter-btn" data-filter="promo">YouTube &amp; Промо</button>
   </div>
-  <div class="gallery-grid reveal" id="galleryGrid"></div>
-  <button class="gallery-more" id="galleryMore">Показать ещё</button>
+  <div class="gallery-grid" id="galleryGrid"></div>
+  <div style="text-align: center;">
+    <button class="gallery-more" id="galleryMore">Показать ещё</button>
+  </div>
 </section>
 
 <!-- Modal -->
@@ -1598,80 +1334,85 @@
 
 <!-- PRICING -->
 <section id="pricing">
-  <p class="section-label">Тарифы</p>
-  <h2 class="reveal">Выбери свой уровень</h2>
-  <div class="pricing-grid reveal">
+  <p class="section-label">Тарифы и пакеты</p>
+  <h2>Форматы сотрудничества</h2>
+  <p class="section-intro">Понятная пакетная система под ключ: вы только записываете материал, а готовые ролики выходят стабильно по графику.</p>
+
+  <div class="pricing-grid">
 
     <div class="pricing-card">
-      <p class="plan-name">Базовый</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Для тех, кому нужен аккуратный результат</p>
-      <p class="plan-price">1 000 <span>₽ / ролик</span></p>
-      <p class="plan-desc">Короткий вертикальный ролик до 90 сек</p>
+      <p class="plan-name">Тест-драйв</p>
+      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Тестовая серия на 4 ролика без риска</p>
+      <p class="plan-price">14 000 <span>₽ / пакет</span></p>
+      <p class="plan-desc">4 ролика под ключ (3 500 ₽ / ролик)</p>
       <ul class="plan-features">
-        <li>Нарезка и склейка материала</li>
-        <li>Базовая цветокоррекция</li>
-        <li>Обработка и чистка звука</li>
-        <li>Простые субтитры</li>
-        <li>1 правка включена</li>
+        <li>Аудит исходников и точек потери удержания</li>
+        <li>Плотный смысловой монтаж и динамика</li>
+        <li>Акцентные субтитры и саунд-дизайн</li>
+        <li>Тест 2 вариантов хука для ключевого ролика</li>
+        <li>Быстрый старт и проверка сработанности</li>
       </ul>
-      <a href="#contact" class="plan-cta">Заказать</a>
+      <a href="#contact" class="plan-cta">Начать тест</a>
     </div>
 
     <div class="pricing-card featured">
-      <p class="plan-name">Продвинутый</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Для тех, кто хочет выделиться</p>
-      <p class="plan-price">2 500 <span>₽ / ролик</span></p>
-      <p class="plan-desc">Короткий вертикальный ролик до 90 сек</p>
+      <p class="plan-name">Системный рост</p>
+      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">10 роликов в месяц — стабильный постинг</p>
+      <p class="plan-price">35 000 <span>₽ / мес</span></p>
+      <p class="plan-desc">Комплекс под ключ (2–3 ролика в неделю)</p>
       <ul class="plan-features">
-        <li>Всё из базового тарифа</li>
-        <li>Анимированные субтитры</li>
-        <li>Базовые анимации и переходы</li>
-        <li>Футажи и фоновые элементы</li>
-        <li>2 правки включены</li>
+        <li>Всё из тарифа Тест-драйв</li>
+        <li>Докрутка сценариев и смысловая чистка до монтажа</li>
+        <li>Глубокий динамичный саунд-дизайн и анимация</li>
+        <li>Адаптация под Reels, Shorts и TikTok</li>
+        <li>Срок отдачи черновика: до 48 часов</li>
       </ul>
-      <a href="#contact" class="plan-cta accent">Заказать</a>
+      <a href="#contact" class="plan-cta accent">Выбрать пакет</a>
     </div>
 
     <div class="pricing-card">
-      <p class="plan-name">Профессиональный</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Для серьёзного контента и брендов</p>
-      <p class="plan-price">5 000 <span>₽ / ролик</span></p>
-      <p class="plan-desc">Короткий вертикальный ролик до 90 сек</p>
+      <p class="plan-name">Масштаб</p>
+      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">15 роликов в месяц — формат видео-партнёра</p>
+      <p class="plan-price">50 000 <span>₽ / мес</span></p>
+      <p class="plan-desc">Максимальный охват (постинг через день)</p>
       <ul class="plan-features">
-        <li>Всё из продвинутого тарифа</li>
-        <li>Профессиональная моушн-графика</li>
-        <li>3D-анимации и спецэффекты</li>
-        <li>Стилизация под бренд</li>
-        <li>3 правки включены</li>
+        <li>Всё из тарифа Системный рост</li>
+        <li>Приоритетный монтаж и выделенный слот в графике</li>
+        <li>Ежемесячный банк идей и виральных референсов</li>
+        <li>Сложные визуальные решения и моушн-акценты</li>
+        <li>A/B тестирование первых секунд для досмотров</li>
       </ul>
-      <a href="#contact" class="plan-cta">Заказать</a>
+      <a href="#contact" class="plan-cta">Работать на максимум</a>
     </div>
 
   </div>
-  <p style="margin-top:1.5rem;font-size:0.82rem;color:var(--muted);font-weight:300">* Цены указаны для роликов до 90 секунд.</p>
 
-  <div class="pricing-note reveal">
+  <div class="pricing-note">
     <div class="pricing-note-item">
       <span class="pricing-note-mark">＊</span>
-      <p>Цены на сайте носят ознакомительный характер и не являются публичной офертой. Итоговая стоимость зависит от объёма материала, сложности графики и сроков и определяется индивидуально при обсуждении проекта.</p>
+      <p>Поштучный разовый монтаж доступен от 3 500 ₽ за ролик.</p>
     </div>
     <div class="pricing-note-item">
       <span class="pricing-note-mark">＊</span>
-      <p>Длинный формат роликов (лонги, YouTube-видео и т.д.) — считаем отдельно, обсуждается индивидуально.</p>
+      <p>Пакетный формат снимает с автора всю рутину продакшна: вы только записываете исходники, а готовые единицы контента получаете по чёткому графику.</p>
+    </div>
+    <div class="pricing-note-item">
+      <span class="pricing-note-mark">＊</span>
+      <p>Длинные горизонтальные видео (YouTube-выпуски, подкасты, интервью) оцениваются индивидуально под хронометраж и сложность задачи.</p>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="contact-info reveal">
+  <div class="contact-info">
     <p class="section-label">Контакты</p>
-    <h2>Давай<br>работать</h2>
-    <p>Напиши напрямую в любой из этих способов — расскажи про проект, и я отвечу в течение дня.</p>
+    <h2>Давай работать</h2>
+    <p class="section-intro" style="margin-bottom:2.5rem;">Напиши напрямую в любой удобный мессенджер — расскажи про проект, и я отвечу в течение дня.</p>
     <div class="contact-links">
       <a href="https://t.me/Kiruxa_ae" class="contact-link" target="_blank">
         <span class="contact-link-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
             <path d="M21 5L2 12.5l7 1M21 5l-2.5 15L9 13.5M21 5L9 13.5m0 0v5.5l3.5-3"/>
           </svg>
         </span>
@@ -1679,15 +1420,15 @@
       </a>
       <a href="https://instagram.com/kiruxa_ae" class="contact-link" target="_blank">
         <span class="contact-link-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
           </svg>
         </span>
         Instagram
       </a>
       <a href="mailto:kiruxabro3103@yandex.ru" class="contact-link">
         <span class="contact-link-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
             <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 8 10-8"/>
           </svg>
         </span>
@@ -1697,232 +1438,208 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <p>© 2026 Кирилл. Все права защищены.</p>
-  <p>Видеомонтаж для авторов и брендов</p>
+  <div class="footer-inner">
+    <p>© 2026 Кирилл. Все права защищены.</p>
+    <p>Видео-партнёр и креативный монтаж для авторов и брендов</p>
+  </div>
 </footer>
 
 <script>
-  // ============================================================
-  // ТВОИ ВИДЕО — просто добавляй новые объекты в этот список!
-  //
-  // embedUrl — ссылка для встраивания с любой платформы:
-  //
-  //   ВКонтакте: открой видео → «...» → «Поделиться» → «Код для вставки»
-  //              скопируй src="..." из тега <iframe> и вставь сюда
-  //
-  //   Rutube: открой видео → «Поделиться» → «Встроить»
-  //           скопируй src="..." из тега <iframe>
-  //
-  //   YouTube Shorts: обычная ссылка на шортс выглядит так —
-  //           https://www.youtube.com/shorts/ID_ВИДЕО
-  //           для встраивания просто замени "shorts" на "embed":
-  //           https://www.youtube.com/embed/ID_ВИДЕО
-  //           (ID_ВИДЕО остаётся тем же, формат: "vertical")
-  //
-  // thumb — прямая ссылка на картинку-превью (любое изображение).
-  //         Можно загрузить скриншот кадра на imgur.com и взять ссылку.
-  //
-  // level: "basic" | "advanced" | "pro"
-  // format: "vertical" | "horizontal"
-  // title: название работы
-  // client: для кого или тип контента
-  // ============================================================
   const VIDEOS = [
-     {
+    {
       embedUrl: "https://www.youtube.com/embed/7FqWDmHaOx4",
       thumb: "https://i.imgur.com/z0WC0kf.png",
-      level: "basic",
+      category: "viral",
       format: "vertical",
-      title: "Базовый монтаж",
-      client: "блогер с 2млн+ подписчиков / Василиса Кедрова / Развлекательный"
+      title: "Развлекательный Reels",
+      client: "Блогер 2M+ / Василиса Кедрова"
     },
     {
       embedUrl: "https://www.youtube.com/embed/0_jiiW8jitY",
       thumb: "https://i.imgur.com/26Zskvz.jpeg",
-      level: "advanced",
+      category: "promo",
       format: "horizontal",
-      title: "Продвинутый монтаж",
-      client: "Тизер / Алексей Guvmen"
-     },
+      title: "Динамичный промо-тизер",
+      client: "Блогер / Алексей Guvmen"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/Vvia1_GFVOA",
+      thumb: "https://i.imgur.com/jtWvWik.jpeg",
+      category: "business",
+      format: "vertical",
+      title: "Турнир CS2 (35.8K просмотров) · Сценарий & Монтаж",
+      client: "ПК Клуб / CYBERZONE.LV"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/PgoOl8wvSXI",
+      thumb: "https://i.imgur.com/99o0aLi.png",
+      category: "business",
+      format: "vertical",
+      title: "Атмосфера и оффер клуба",
+      client: "ПК Клуб / CYBERZONE.LV"
+    },
+    {
+      embedUrl: "https://www.youtube.com/shorts/UAllf46uX8A",
+      thumb: "https://i.imgur.com/NhLBW0r.png",
+      category: "business",
+      format: "vertical",
+      title: "Опрос CS2 (25.3K просмотров) · Режиссура & Монтаж",
+      client: "ПК Клуб / CYBERZONE.LV"
+    },
     {
       embedUrl: "https://www.youtube.com/embed/l4LlnvJoIA4",
       thumb: "https://i.imgur.com/nKj8eBR.jpeg",
-      level: "pro",
+      category: "promo",
       format: "horizontal",
-      title: "Профессиональный монтаж",
-      client: "Видеовизитка / ППКУ им. Героя России Ф. Кузьмина"
-     },
+      title: "Имиджевый конкурсный фильм (Часть 1)",
+      client: "ППКУ им. Героя России Ф. Кузьмина"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/Xxyw_5ydXYw",
+      thumb: "https://i.imgur.com/rmAdb8W.jpeg",
+      category: "promo",
+      format: "horizontal",
+      title: "Конкурсная видеовизитка (Часть 2)",
+      client: "ППКУ им. Героя России Ф. Кузьмина"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/NICnamlTbSk",
+      thumb: "https://i.imgur.com/xZjO8KT.jpeg",
+      category: "promo",
+      format: "horizontal",
+      title: "Промо-фильм училища (Часть 3)",
+      client: "ППКУ им. Героя России Ф. Кузьмина"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/IUwjCsRYMSU",
+      thumb: "https://i.imgur.com/owEuH1t.png",
+      category: "business",
+      format: "horizontal",
+      title: "Экспертный выпуск: Бизнес & Предпринимательство",
+      client: "Vladimir Shagarov / Бизнес"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/Z8-lJx-H5fc",
+      thumb: "https://i.imgur.com/WnyyVBt.jpeg",
+      category: "business",
+      format: "vertical",
+      title: "Обзор премиальной недвижимости",
+      client: "Концепт / Недвижимость"
+    },
     {
       embedUrl: "https://www.youtube.com/embed/29RFyqK1plA",
       thumb: "https://i.imgur.com/RduTW5L.png",
-      level: "advanced",
+      category: "promo",
       format: "horizontal",
-      title: "Продвинутый монтаж",
+      title: "YouTube: Графический дизайн и брендинг",
       client: "Дядя Рома / Дизайн"
     },
     {
       embedUrl: "https://www.youtube.com/embed/JuWCHINAMQU",
       thumb: "https://i.imgur.com/SFZ7gEb.png",
-      level: "advanced",
+      category: "promo",
       format: "horizontal",
-      title: "Продвинутый монтаж",
+      title: "YouTube: Ошибки в веб-дизайне",
       client: "Дядя Рома / Дизайн"
     },
     {
       embedUrl: "https://www.youtube.com/embed/DSzvpuDUD98",
       thumb: "https://i.imgur.com/ec1407n.png",
-      level: "advanced",
+      category: "promo",
       format: "horizontal",
-      title: "Продвинутый монтаж",
+      title: "YouTube: Тренды визуального стиля",
       client: "Дядя Рома / Дизайн"
     },
     {
       embedUrl: "https://www.youtube.com/embed/lV4RjOfe7hA",
       thumb: "https://i.imgur.com/6T8qpfA.png",
-      level: "advanced",
+      category: "promo",
       format: "horizontal",
-      title: "Продвинутый монтаж",
+      title: "YouTube: Разбор кейсов дизайна",
       client: "Дядя Рома / Дизайн"
-    },
-    {
-      embedUrl: "https://www.youtube.com/embed/gmgMKq3xvYA",
-      thumb: "https://i.imgur.com/6SHTFP6.png",
-      level: "advanced",
-      format: "vertical",
-      title: "Продвинутый монтаж",
-      client: "Тестовое / Развлекательный"
     },
     {
       embedUrl: "https://www.youtube.com/embed/oczRFAYVwkc",
       thumb: "https://i.imgur.com/qwZbazI.png",
-      level: "advanced",
+      category: "viral",
       format: "vertical",
-      title: "Продвинутый монтаж",
-      client: "Тестовое / Автомобили"
+      title: "Динамичный авто-обзор",
+      client: "Концепт / Автомобили"
     },
     {
       embedUrl: "https://www.youtube.com/embed/bCqOzsrjvrM",
       thumb: "https://i.imgur.com/Kxxqo3h.png",
-      level: "basic",
+      category: "business",
       format: "vertical",
-      title: "Базовый монтаж",
-      client: "Тестовое / Еда"
-    },
-    {
-      embedUrl: "https://www.youtube.com/embed/IUwjCsRYMSU",
-      thumb: "https://i.imgur.com/owEuH1t.png",
-      level: "advanced",
-      format: "horizontal",
-      title: "Продвинутый монтаж",
-      client: "Vladimir Shagarov / Бизнес"
+      title: "Food-Reels / Гастрономия",
+      client: "Концепт / Рестораны & Фуд-блог"
     },
     {
       embedUrl: "https://www.youtube.com/embed/C52joEy778c",
       thumb: "https://i.imgur.com/IMpZpks.jpeg",
-      level: "basic",
+      category: "business",
       format: "vertical",
-      title: "Базовый монтаж",
-      client: "Тестовое / Работа"
+      title: "Экспертный ролик: Карьера & Заработок",
+      client: "Концепт / Карьера & Бизнес"
+    },
+    {
+      embedUrl: "https://www.youtube.com/embed/gmgMKq3xvYA",
+      thumb: "https://i.imgur.com/6SHTFP6.png",
+      category: "viral",
+      format: "vertical",
+      title: "Вирусный шортс / Юмор",
+      client: "Концепт / Развлекательный"
     },
     {
       embedUrl: "https://www.youtube.com/embed/z_GSW1XOC8g",
       thumb: "https://i.imgur.com/n392Wc3.jpeg",
-      level: "advanced",
+      category: "promo",
       format: "horizontal",
-      title: "Продвинутый монтаж",
-      client: "Моё видео / Kiruxa_ae"
-     },
-     {
-      embedUrl: "https://www.youtube.com/embed/Vvia1_GFVOA",
-      thumb: "https://i.imgur.com/jtWvWik.jpeg",
-      level: "basic",
-      format: "vertical",
-      title: "Базовый монтаж",
-      client: "ПК Клуб / CYBERZONE.LV"
-     },
-     {
-      embedUrl: "https://www.youtube.com/embed/PgoOl8wvSXI",
-      thumb: "https://i.imgur.com/99o0aLi.png",
-      level: "basic",
-      format: "vertical",
-      title: "Базовый монтаж",
-      client: "ПК Клуб / CYBERZONE.LV"
-     },
-     {
-      embedUrl: "https://www.youtube.com/embed/Z8-lJx-H5fc",
-      thumb: "https://i.imgur.com/WnyyVBt.jpeg",
-      level: "advanced",
-      format: "vertical",
-      title: "Продвинутый монтаж",
-      client: "Тестовое / Недвижимость"
-     },
-     {
-      embedUrl: "https://www.youtube.com/shorts/UAllf46uX8A",
-      thumb: "https://i.imgur.com/NhLBW0r.png",
-      level: "basic",
-      format: "vertical",
-      title: "Базовый монтаж",
-      client: "ПК Клуб / CYBERZONE.LV"
-     },
-     {
-      embedUrl: "https://www.youtube.com/embed/Xxyw_5ydXYw",
-      thumb: "https://i.imgur.com/rmAdb8W.jpeg",
-      level: "pro",
-      format: "horizontal",
-      title: "Профессиональный монтаж",
-      client: "Видеовизитка / ППКУ им. Героя России Ф. Кузьмина"
-     },
-     {
-      embedUrl: "https://www.youtube.com/embed/NICnamlTbSk",
-      thumb: "https://i.imgur.com/xZjO8KT.jpeg",
-      level: "pro",
-      format: "horizontal",
-      title: "Профессиональный монтаж",
-      client: "Видеовизитка / ППКУ им. Героя России Ф. Кузьмина"
-     },
-     
-    // Чтобы добавить ещё видео — скопируй блок ниже, раскомментируй и заполни:
-    // {
-    //   embedUrl: "ВСТАВЬ_ССЫЛКУ_EMBED",
-    //   thumb: "ВСТАВЬ_ССЫЛКУ_НА_ПРЕВЬЮ",
-    //   level: "advanced",        ← basic / advanced / pro
-    //   format: "vertical",       ← vertical / horizontal
-    //   title: "Название работы",
-    //   client: "Для кого / тип"
-    // },
+      title: "Авторский шоурил / Motion & FX",
+      client: "Kiruxa_ae"
+    }
   ];
-  // ============================================================
 
-  const LEVEL_LABELS = {
-    basic: 'Базовый',
-    advanced: 'Продвинутый',
-    pro: 'Профессиональный'
+  const CATEGORY_LABELS = {
+    business: 'Бизнес & Эксперты',
+    viral: 'Вирусный контент',
+    promo: 'YouTube & Промо'
   };
 
-  // На мобильном показываем не все работы сразу, а с кнопкой "Показать ещё"
+  const GALLERY_INITIAL_DESKTOP = 6;
+  const GALLERY_STEP_DESKTOP = 6;
   const GALLERY_INITIAL_MOBILE = 4;
-  const GALLERY_STEP_MOBILE = 8;
+  const GALLERY_STEP_MOBILE = 4;
+
   let galleryCurrentFilter = 'all';
-  let galleryVisibleCount = Infinity;
-  const isMobileGallery = () => window.matchMedia('(max-width: 600px)').matches;
+  const isMobileGallery = () => window.matchMedia('(max-width: 768px)').matches;
+
+  function getInitialCount() {
+    return isMobileGallery() ? GALLERY_INITIAL_MOBILE : GALLERY_INITIAL_DESKTOP;
+  }
+  function getStepCount() {
+    return isMobileGallery() ? GALLERY_STEP_MOBILE : GALLERY_STEP_DESKTOP;
+  }
+
+  let galleryVisibleCount = getInitialCount();
 
   function buildGallery(filter, resetCount = true) {
     galleryCurrentFilter = filter;
     const grid = document.getElementById('galleryGrid');
     const moreBtn = document.getElementById('galleryMore');
-    const items = filter === 'all' ? VIDEOS : VIDEOS.filter(v => v.level === filter);
+    const items = filter === 'all' ? VIDEOS : VIDEOS.filter(v => v.category === filter);
 
     if (resetCount) {
-      galleryVisibleCount = isMobileGallery() ? GALLERY_INITIAL_MOBILE : Infinity;
+      galleryVisibleCount = getInitialCount();
     }
     const visibleItems = items.slice(0, galleryVisibleCount);
 
     grid.innerHTML = visibleItems.map((v, i) => `
-      <div class="gallery-item reveal" data-id="${i}" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}" ${v.format === 'horizontal' ? 'style="grid-column: span 2"' : ''}>
-        <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : ''}">
-          <img src="${v.thumb}"
-               style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
+      <div class="gallery-item" data-id="${i}" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}" ${v.format === 'horizontal' ? 'style="grid-column: span 2"' : ''}>
+        <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : 'vertical'}">
+          <img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
           <div class="gallery-thumb-cover">
             <div class="gallery-play">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
@@ -1930,7 +1647,7 @@
           </div>
         </div>
         <div class="gallery-info">
-          <p class="gallery-info-level">${LEVEL_LABELS[v.level]} · ${v.format === 'horizontal' ? 'Горизонтальное' : 'Вертикальное'}</p>
+          <p class="gallery-info-level">${CATEGORY_LABELS[v.category] || 'Видео'} · ${v.format === 'horizontal' ? 'Горизонтальное' : 'Вертикальное'}</p>
           <p class="gallery-info-title">${v.title}</p>
           <p class="gallery-info-client">${v.client}</p>
         </div>
@@ -1938,19 +1655,22 @@
     `).join('');
 
     grid.querySelectorAll('.gallery-item').forEach(el => {
-      observer.observe(el);
       el.addEventListener('click', () => openModal(el.dataset.embed, el.dataset.format));
     });
 
-    moreBtn.classList.toggle('visible', visibleItems.length < items.length);
+    const hasMore = visibleItems.length < items.length;
+    moreBtn.classList.toggle('visible', hasMore);
+    if (hasMore) {
+      const remaining = items.length - visibleItems.length;
+      moreBtn.innerHTML = `Показать ещё (${remaining}) <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>`;
+    }
   }
 
   document.getElementById('galleryMore').addEventListener('click', () => {
-    galleryVisibleCount += GALLERY_STEP_MOBILE;
+    galleryVisibleCount += getStepCount();
     buildGallery(galleryCurrentFilter, false);
   });
 
-  // Если пользователь меняет ориентацию/ширину так, что переходит границу мобильного брейкпоинта — пересчитать
   let lastIsMobile = isMobileGallery();
   window.addEventListener('resize', () => {
     const nowMobile = isMobileGallery();
@@ -1960,45 +1680,6 @@
     }
   });
 
-  // Топ-работы под каждым уровнем в разделе "Три уровня монтажа"
-  // Берём из того же массива VIDEOS — сколько показывать штук на уровень:
-  const WORKS_PER_LEVEL = 4;
-
-  function buildCompareWorks() {
-    ['basic', 'advanced', 'pro'].forEach(level => {
-      const container = document.getElementById('works-' + level);
-      if (!container) return;
-      const items = VIDEOS.filter(v => v.level === level).slice(0, WORKS_PER_LEVEL);
-
-      if (items.length === 0) {
-        container.innerHTML = `<div class="compare-works-empty">Работы этого уровня скоро появятся</div>`;
-        return;
-      }
-
-      container.innerHTML = items.map(v => `
-        <div class="gallery-item reveal" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}">
-          <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : ''}">
-            <img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
-            <div class="gallery-thumb-cover">
-              <div class="gallery-play">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
-              </div>
-            </div>
-          </div>
-          <div class="gallery-info">
-            <p class="gallery-info-level">${LEVEL_LABELS[v.level]}</p>
-          </div>
-        </div>
-      `).join('');
-
-      container.querySelectorAll('.gallery-item').forEach(el => {
-        observer.observe(el);
-        el.addEventListener('click', () => openModal(el.dataset.embed, el.dataset.format));
-      });
-    });
-  }
-
-  // Filters
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -2007,7 +1688,6 @@
     });
   });
 
-  // Modal
   function openModal(embedUrl, format) {
     const modal = document.getElementById('modalVideo');
     const inner = document.querySelector('.modal-inner');
@@ -2028,7 +1708,6 @@
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // Mobile nav toggle
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.querySelector('.nav-links');
   navToggle.addEventListener('click', () => {
@@ -2042,55 +1721,16 @@
     });
   });
 
-  // Tabs
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
-    });
-  });
+  buildGallery('all', true);
 
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // Init gallery
-  buildGallery('all');
-  buildCompareWorks();
-
-
-  // ── SCROLL PROGRESS BAR + HERO PARALLAX ──
   const progressBar = document.getElementById('scroll-progress');
-  const heroSection = document.getElementById('hero');
-  const heroContentEl = document.querySelector('#hero .hero-content');
-  const heroVisualEl = document.querySelector('.hero-visual');
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     const pct = (scrolled / maxScroll) * 100;
     progressBar.style.width = pct + '%';
-
-    if (!prefersReducedMotion && heroSection) {
-      const heroH = heroSection.offsetHeight;
-      const p = Math.min(Math.max(scrolled / heroH, 0), 1);
-      if (heroContentEl) {
-        heroContentEl.style.transform = `translateY(${p * 50}px)`;
-        heroContentEl.style.opacity = 1 - p * 1.15;
-      }
-      if (heroVisualEl) {
-        heroVisualEl.style.transform = `translateY(${p * -30}px)`;
-      }
-    }
   }, { passive: true });
 
-  // ── CUSTOM CURSOR — только на устройствах с мышью ──
   const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const dot  = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
@@ -2110,19 +1750,6 @@
     document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
   }
 
-  // ── ФОНОВОЕ СВЕЧЕНИЕ, СЛЕДУЮЩЕЕ ЗА КУРСОРОМ — на всю страницу ──
-  if (!isTouchDevice) {
-    const pageGlow = document.querySelector('.page-glow');
-    document.addEventListener('mousemove', e => {
-      const xPct = (e.clientX / window.innerWidth) * 100;
-      const yPct = (e.clientY / window.innerHeight) * 100;
-      pageGlow.style.background = `
-        radial-gradient(ellipse 60% 45% at ${xPct}% ${yPct}%, rgba(139,31,48,0.22) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 45% at 15% 95%, rgba(139,31,48,0.09) 0%, transparent 55%)`;
-    });
-  }
-
-  // ── STAT COUNTERS ──
   function animateCounter(el, target, duration = 1500) {
     let start = null;
     const step = ts => {

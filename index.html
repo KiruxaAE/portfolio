@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Кирилл — Видеомонтаж &amp; Продюсирование удержания</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,6 +21,7 @@
     --border: rgba(255,255,255,0.08);
     --border-hover: rgba(139,31,48,0.45);
     --container: 1200px;
+    --font-heading: 'Bebas Neue', 'Oswald', sans-serif;
   }
 
   /* SCROLLBAR */
@@ -80,13 +82,17 @@
     background-size: 200px 200px;
   }
 
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
     font-size: 16px;
     line-height: 1.7;
-    overflow-x: hidden;
   }
 
   /* BACKGROUND GRID & GLOW */
@@ -120,7 +126,7 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(8,8,8,0.85);
+    background: rgba(8,8,8,0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
@@ -134,14 +140,13 @@
     justify-content: space-between;
   }
   .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: 1.5rem;
     letter-spacing: 0.08em;
     color: var(--text);
     text-decoration: none;
-    transition: opacity 0.2s;
+    text-transform: uppercase;
   }
-  .nav-logo:hover { opacity: 0.85; }
   .nav-logo span { color: var(--accent); }
   .nav-links {
     display: flex;
@@ -180,9 +185,9 @@
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  /* GENERAL SECTION STRUCTURE */
+  /* SECTION DEFAULTS */
   section {
-    padding: 7rem 5vw;
+    padding: 6.5rem 5vw;
     position: relative;
   }
   .section-label {
@@ -195,12 +200,13 @@
     font-weight: 500;
   }
   h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.6rem, 5vw, 4.2rem);
-    line-height: 1.05;
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.1;
     letter-spacing: 0.02em;
     margin-bottom: 1rem;
     text-align: center;
+    text-transform: uppercase;
   }
   .section-intro {
     max-width: 640px;
@@ -228,7 +234,7 @@
   .hero-chips {
     display: inline-flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: 0.8rem;
     margin-bottom: 2rem;
     padding: 0.4rem 1.2rem;
     border-radius: 999px;
@@ -253,16 +259,17 @@
   }
   @keyframes status-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.75); }
+    50% { opacity: 0.45; transform: scale(0.75); }
   }
   .hero-chip-divider { width: 1px; height: 0.9rem; background: var(--border); }
   .hero-tag { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); }
   h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4.5rem, 12vw, 10.5rem);
-    line-height: 0.88;
-    letter-spacing: -0.01em;
+    font-family: var(--font-heading);
+    font-size: clamp(4rem, 11vw, 9.5rem);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
     margin-bottom: 2rem;
+    text-transform: uppercase;
   }
   h1 em {
     font-style: normal;
@@ -319,10 +326,11 @@
     align-items: center;
     gap: 2rem;
     padding: 0 2rem;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: 1.15rem;
     letter-spacing: 0.14em;
     color: var(--muted);
+    text-transform: uppercase;
     white-space: nowrap;
   }
   .marquee-dot {
@@ -340,7 +348,7 @@
     max-width: var(--container);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 420px 1fr;
+    grid-template-columns: 400px 1fr;
     gap: 4.5rem;
     align-items: center;
   }
@@ -394,7 +402,7 @@
     border-radius: 6px;
   }
   .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: 2.4rem;
     line-height: 1;
     color: var(--text);
@@ -458,11 +466,12 @@
     border-color: var(--accent);
   }
   .case-title {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: clamp(2rem, 3.2vw, 2.7rem);
     line-height: 1.1;
     letter-spacing: 0.02em;
     margin-bottom: 0.4rem;
+    text-transform: uppercase;
   }
   .case-client-lead {
     font-size: 0.85rem;
@@ -502,6 +511,11 @@
     background: var(--accent);
     flex-shrink: 0;
     margin-top: 0.65em;
+  }
+  .case-action-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
   .case-play-btn {
     display: inline-flex;
@@ -628,17 +642,19 @@
     box-shadow: 0 16px 36px -16px rgba(0,0,0,0.6);
   }
   .approach-num {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: 2.8rem;
     color: var(--accent);
     line-height: 1;
     margin-bottom: 0.8rem;
   }
   .approach-card h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    letter-spacing: 0.04em;
+    font-family: var(--font-heading);
+    font-size: 1.55rem;
+    letter-spacing: 0.03em;
     margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    line-height: 1.15;
   }
   .approach-card p {
     font-size: 0.88rem;
@@ -801,10 +817,11 @@
     white-space: nowrap;
   }
   .plan-name {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: 1.7rem;
     letter-spacing: 0.06em;
     margin-bottom: 0.3rem;
+    text-transform: uppercase;
   }
   .plan-price {
     font-size: 2.8rem;
@@ -980,9 +997,9 @@
   /* RESPONSIVE */
   @media (max-width: 960px) {
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .about-photo { max-width: 380px; margin: 0 auto; }
+    .about-photo { max-width: 360px; margin: 0 auto; }
     .about-text h2 { text-align: center; }
-    .case-card, .case-card.reverse { grid-template-columns: 1fr; gap: 2.4rem; padding: 2.4rem; }
+    .case-card, .case-card.reverse { grid-template-columns: 1fr; gap: 2.4rem; padding: 2.2rem; }
     .case-card.reverse .case-info { order: 1; }
     .case-card.reverse .case-media-side { order: 2; }
     .approach-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1009,11 +1026,27 @@
   }
 
   @media (max-width: 600px) {
-    section { padding: 4.5rem 5vw; }
-    .case-media-side { grid-template-columns: 1fr; }
-    .approach-grid { grid-template-columns: 1fr; }
-    .gallery-grid { grid-template-columns: 1fr !important; }
+    section { padding: 4.2rem 5vw; }
+    h1 { font-size: clamp(3rem, 13vw, 4.8rem); line-height: 0.95; }
+    h2 { font-size: clamp(2rem, 8.5vw, 2.8rem); }
+    .hero-sub { font-size: 1rem; margin-bottom: 2rem; }
+    .hero-chips { padding: 0.35rem 0.9rem; gap: 0.5rem; }
+    .about-photo { max-width: 280px; }
+    .about-stats { gap: 0.6rem; }
+    .stat-num { font-size: 2rem; }
+    .case-card, .case-card.reverse { padding: 1.6rem 1.2rem; border-radius: 8px; }
+    .case-title { font-size: clamp(1.8rem, 7.5vw, 2.2rem); }
+    .case-media-side { grid-template-columns: 1fr; gap: 1rem; }
+    .case-preview-card.vertical { max-width: 260px; margin: 0 auto; }
+    .approach-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .approach-card { padding: 1.8rem 1.4rem; }
+    .approach-num { font-size: 2.2rem; }
+    .approach-card h3 { font-size: 1.35rem; }
+    .gallery-grid { grid-template-columns: 1fr !important; gap: 1.2rem; }
+    .gallery-item { max-width: 320px; margin: 0 auto; width: 100%; }
     .gallery-item[style*="grid-column"] { grid-column: span 1 !important; }
+    .pricing-card { padding: 2rem 1.4rem; }
+    .plan-price { font-size: 2.4rem; }
     .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
 
@@ -1076,15 +1109,15 @@
 <!-- MARQUEE -->
 <div class="marquee-section" aria-hidden="true">
   <div class="marquee-track">
-    <div class="marquee-item">Хуки &amp; Удержание <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Хуки и удержание <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Reels и Shorts <span class="marquee-dot"></span></div>
     <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
     <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
     <div class="marquee-item">Саунд-дизайн <span class="marquee-dot"></span></div>
     <div class="marquee-item">Режиссура съёмки <span class="marquee-dot"></span></div>
     <div class="marquee-item">YouTube контент <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Хуки &amp; Удержание <span class="marquee-dot"></span></div>
-    <div class="marquee-item">Reels &amp; Shorts <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Хуки и удержание <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Reels и Shorts <span class="marquee-dot"></span></div>
     <div class="marquee-item">After Effects <span class="marquee-dot"></span></div>
     <div class="marquee-item">Premiere Pro <span class="marquee-dot"></span></div>
     <div class="marquee-item">Саунд-дизайн <span class="marquee-dot"></span></div>
@@ -1287,12 +1320,12 @@
   <div class="approach-grid">
     <div class="approach-card">
       <span class="approach-num">01</span>
-      <h3>Хуки &amp; Первые 3 секунды</h3>
+      <h3>Хуки и первые 3 секунды</h3>
       <p>Срезаю нудные вступления и «воду». Выношу главный тезис или интригу в самое начало, чтобы пробить баннерную слепоту зрителя в ленте.</p>
     </div>
     <div class="approach-card">
       <span class="approach-num">02</span>
-      <h3>Сценарий &amp; Режиссура</h3>
+      <h3>Сценарий и режиссура</h3>
       <p>Подсказываю, как улучшить подачу, и даю понятные рекомендации по съёмке: ракурс, свет, динамика в кадре и интонации спикера.</p>
     </div>
     <div class="approach-card">
@@ -1302,7 +1335,7 @@
     </div>
     <div class="approach-card">
       <span class="approach-num">04</span>
-      <h3>Саунд-дизайн &amp; Motion</h3>
+      <h3>Саунд-дизайн и Motion</h3>
       <p>Объёмный звук, расставляющий акценты на важных смыслах, и стильная типографика с анимацией без дешёвого визуального шума.</p>
     </div>
   </div>
@@ -1619,6 +1652,7 @@
   function getInitialCount() {
     return isMobileGallery() ? GALLERY_INITIAL_MOBILE : GALLERY_INITIAL_DESKTOP;
   }
+
   function getStepCount() {
     return isMobileGallery() ? GALLERY_STEP_MOBILE : GALLERY_STEP_DESKTOP;
   }
@@ -1639,7 +1673,8 @@
     grid.innerHTML = visibleItems.map((v, i) => `
       <div class="gallery-item" data-id="${i}" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}" ${v.format === 'horizontal' ? 'style="grid-column: span 2"' : ''}>
         <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : 'vertical'}">
-          <img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
+          <img src="${v.thumb}"
+               style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
           <div class="gallery-thumb-cover">
             <div class="gallery-play">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>

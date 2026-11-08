@@ -13,13 +13,13 @@
   :root {
     --bg: #080808;
     --bg2: #111111;
-    --bg3: #161616;
+    --bg3: #1a1a1a;
     --text: #f0ede8;
-    --muted: #8e8e8e;
+    --muted: #888888;
     --accent: #8B1F30;
     --accent2: #b02840;
     --border: rgba(255,255,255,0.08);
-    --border-hover: rgba(139,31,48,0.45);
+    --border-hover: rgba(139,31,48,0.5);
     --container: 1200px;
     --font-heading: 'Bebas Neue', 'Oswald', sans-serif;
   }
@@ -194,7 +194,7 @@
     font-size: 0.75rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent2);
     margin-bottom: 0.8rem;
     text-align: center;
     font-weight: 500;
@@ -211,10 +211,11 @@
   .section-intro {
     max-width: 640px;
     margin: 0 auto 3.5rem auto;
-    color: rgba(240,237,232,0.65);
+    color: var(--muted);
     font-weight: 300;
     text-align: center;
-    line-height: 1.6;
+    line-height: 1.65;
+    font-size: 1rem;
   }
 
   /* HERO */
@@ -266,10 +267,24 @@
   h1 {
     font-family: var(--font-heading);
     font-size: clamp(3.8rem, 11vw, 9.5rem);
-    line-height: 0.92;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.94;
     letter-spacing: 0.01em;
     margin-bottom: 2rem;
     text-transform: uppercase;
+  }
+  .hero-line-1 {
+    display: block;
+    margin-bottom: 0.22em; /* гарантированный отступ: запятая никогда не коснется Й */
+  }
+  .hero-line-2 {
+    display: block;
+    margin-bottom: 0.06em;
+  }
+  .hero-line-3 {
+    display: block;
   }
   h1 em {
     font-style: normal;
@@ -451,9 +466,9 @@
   }
   .case-badge {
     font-size: 0.7rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent2);
     background: rgba(139,31,48,0.12);
     border: 1px solid rgba(139,31,48,0.35);
     border-radius: 999px;
@@ -476,14 +491,14 @@
   }
   .case-client-lead {
     font-size: 0.85rem;
-    color: var(--accent);
+    color: var(--accent2);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     font-weight: 500;
     margin-bottom: 1.2rem;
   }
   .case-desc {
-    color: rgba(240,237,232,0.75);
+    color: #D1D5DB;
     font-size: 0.95rem;
     font-weight: 300;
     line-height: 1.65;
@@ -502,9 +517,9 @@
     position: relative;
     padding-left: 1.4rem;
     font-size: 0.88rem;
-    color: rgba(240,237,232,0.75);
+    color: #D1D5DB;
     font-weight: 300;
-    line-height: 1.55;
+    line-height: 1.6;
   }
   .case-highlights li strong {
     color: var(--text);
@@ -792,7 +807,7 @@
     background: var(--bg3);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 2.6rem 2.2rem;
+    padding: 2.8rem 2.2rem 2.4rem;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -849,16 +864,17 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.85rem;
     flex: 1;
-    margin-bottom: 2.2rem;
+    margin-bottom: 2.6rem;
+    padding-bottom: 0.4rem;
   }
   .plan-features li {
     display: block;
     position: relative;
     padding-left: 1.3rem;
     font-size: 0.88rem;
-    color: rgba(240,237,232,0.75);
+    color: #E5E7EB;
     font-weight: 300;
     line-height: 1.5;
   }
@@ -902,7 +918,7 @@
   }
   .pricing-note-item { display: flex; align-items: flex-start; gap: 0.6rem; }
   .pricing-note-mark { color: var(--accent); font-size: 1rem; flex-shrink: 0; line-height: 1.4; }
-  .pricing-note-item p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+  .pricing-note-item p { font-size: 0.88rem; color: var(--muted); font-weight: 300; line-height: 1.5; }
 
   /* CONTACT */
   .contact-info {
@@ -1056,7 +1072,7 @@
 
   @media (max-width: 600px) {
     section { padding: 4rem 5vw; }
-    h1 { font-size: clamp(2.8rem, 12vw, 4.4rem); line-height: 0.96; }
+    h1 { font-size: clamp(2.8rem, 12vw, 4.4rem); line-height: 1.06; }
     h2 { font-size: clamp(2rem, 8vw, 2.7rem); }
     .section-intro { font-size: 0.92rem; margin-bottom: 2.4rem; }
     .hero-sub { font-size: 1rem; margin-bottom: 2rem; }
@@ -1154,7 +1170,11 @@
       <span class="hero-chip-divider"></span>
       <span class="hero-tag">Видео-партнёр &amp; Монтажёр</span>
     </div>
-    <h1>Монтаж,<br>который<br><em>цепляет</em></h1>
+    <h1>
+      <span class="hero-line hero-line-1">Монтаж,</span>
+      <span class="hero-line hero-line-2">который</span>
+      <em class="hero-line hero-line-3">цепляет</em>
+    </h1>
     <p class="hero-sub">Удержание внимания, динамика и хуки для экспертов и брендов. Превращаю просмотры в подписчиков и заявки.</p>
     <a href="#pricing" class="hero-cta">
       Посмотреть форматы работы
@@ -1190,7 +1210,7 @@
       <img src="photo.jpeg" alt="Кирилл — видеомонтажёр" onerror="this.style.display='none'">
     </div>
     <div class="about-text">
-      <p class="section-label" style="text-align:left;">Обо мне</p>
+      <p class="section-label">Обо мне</p>
       <h2>Привет, я Кирилл</h2>
       <p>Видеомонтажёр и специалист по удержанию внимания в вертикальном и YouTube-контенте.</p>
       <p>Работаю как видео-партнёр: глубоко погружаюсь в смыслы, помогаю докрутить хуки на первых секундах и вырезаю лишнюю «воду», спасая ролики от пролистывания.</p>
@@ -1261,11 +1281,11 @@
             <span class="case-preview-label">Reels · 2M+ подписчиков</span>
           </div>
         </div>
-        <div class="case-preview-card horizontal" onclick="openModal('https://www.youtube.com/embed/0_jiiW8jitY', 'horizontal')">
+        <div class="case-preview-card vertical" onclick="openModal('https://www.youtube.com/embed/0_jiiW8jitY', 'horizontal')">
           <img src="https://i.imgur.com/26Zskvz.jpeg" alt="Алексей Guvmen Тизер">
           <div class="case-preview-overlay">
             <div class="gallery-play">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
             </div>
             <span class="case-preview-label">Тизер · Алексей Guvmen</span>
           </div>

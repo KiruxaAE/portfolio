@@ -265,7 +265,7 @@
   .hero-tag { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); }
   h1 {
     font-family: var(--font-heading);
-    font-size: clamp(4rem, 11vw, 9.5rem);
+    font-size: clamp(3.8rem, 11vw, 9.5rem);
     line-height: 0.92;
     letter-spacing: 0.01em;
     margin-bottom: 2rem;
@@ -451,7 +451,7 @@
   }
   .case-badge {
     font-size: 0.7rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--accent);
     background: rgba(139,31,48,0.12);
@@ -459,6 +459,7 @@
     border-radius: 999px;
     padding: 0.35rem 0.85rem;
     font-weight: 500;
+    white-space: normal;
   }
   .case-badge.highlight {
     background: var(--accent);
@@ -492,25 +493,31 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.75rem;
     margin-bottom: 2rem;
   }
+  /* NATURAL BLOCK FLOW: NO BROKEN FLEX COLUMNS */
   .case-highlights li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.7rem;
+    display: block;
+    position: relative;
+    padding-left: 1.4rem;
     font-size: 0.88rem;
     color: rgba(240,237,232,0.75);
     font-weight: 300;
+    line-height: 1.55;
   }
-  .case-highlights li strong { color: var(--text); font-weight: 500; }
+  .case-highlights li strong {
+    color: var(--text);
+    font-weight: 500;
+  }
   .case-highlights li::before {
     content: '';
-    width: 14px;
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 12px;
     height: 1px;
     background: var(--accent);
-    flex-shrink: 0;
-    margin-top: 0.65em;
   }
   .case-action-btns {
     display: flex;
@@ -847,21 +854,22 @@
     margin-bottom: 2.2rem;
   }
   .plan-features li {
+    display: block;
+    position: relative;
+    padding-left: 1.3rem;
     font-size: 0.88rem;
     color: rgba(240,237,232,0.75);
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
     font-weight: 300;
     line-height: 1.5;
   }
   .plan-features li::before {
     content: '';
-    width: 14px;
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 10px;
     height: 1px;
     background: var(--accent);
-    flex-shrink: 0;
-    margin-top: 0.65em;
   }
   .plan-cta {
     display: block;
@@ -1026,27 +1034,55 @@
   }
 
   @media (max-width: 600px) {
-    section { padding: 4.2rem 5vw; }
-    h1 { font-size: clamp(3rem, 13vw, 4.8rem); line-height: 0.95; }
-    h2 { font-size: clamp(2rem, 8.5vw, 2.8rem); }
+    section { padding: 4rem 5vw; }
+    h1 { font-size: clamp(2.8rem, 12vw, 4.4rem); line-height: 0.96; }
+    h2 { font-size: clamp(2rem, 8vw, 2.7rem); }
+    .section-intro { font-size: 0.92rem; margin-bottom: 2.4rem; }
     .hero-sub { font-size: 1rem; margin-bottom: 2rem; }
     .hero-chips { padding: 0.35rem 0.9rem; gap: 0.5rem; }
     .about-photo { max-width: 280px; }
     .about-stats { gap: 0.6rem; }
     .stat-num { font-size: 2rem; }
-    .case-card, .case-card.reverse { padding: 1.6rem 1.2rem; border-radius: 8px; }
-    .case-title { font-size: clamp(1.8rem, 7.5vw, 2.2rem); }
+
+    /* Fix case-card on mobile */
+    .case-card, .case-card.reverse {
+      padding: 1.5rem 1.1rem;
+      border-radius: 8px;
+      gap: 1.5rem;
+    }
+    .case-title { font-size: clamp(1.6rem, 7vw, 2.1rem); }
+    .case-desc { font-size: 0.88rem; line-height: 1.6; }
+    .case-badge-row { gap: 0.4rem; margin-bottom: 0.9rem; }
+    .case-badge { font-size: 0.66rem; padding: 0.28rem 0.65rem; }
+    .case-highlights { gap: 0.7rem; margin-bottom: 1.5rem; }
+    .case-highlights li { font-size: 0.85rem; padding-left: 1.2rem; line-height: 1.5; }
+    .case-highlights li::before { width: 9px; }
+    .case-play-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 0.85rem 1rem;
+      font-size: 0.78rem;
+    }
     .case-media-side { grid-template-columns: 1fr; gap: 1rem; }
     .case-preview-card.vertical { max-width: 260px; margin: 0 auto; }
+
+    /* Fix approach on mobile */
     .approach-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .approach-card { padding: 1.8rem 1.4rem; }
+    .approach-card { padding: 1.6rem 1.3rem; }
     .approach-num { font-size: 2.2rem; }
     .approach-card h3 { font-size: 1.35rem; }
+    .approach-card p { font-size: 0.85rem; }
+
+    /* Fix gallery on mobile */
     .gallery-grid { grid-template-columns: 1fr !important; gap: 1.2rem; }
     .gallery-item { max-width: 320px; margin: 0 auto; width: 100%; }
     .gallery-item[style*="grid-column"] { grid-column: span 1 !important; }
-    .pricing-card { padding: 2rem 1.4rem; }
-    .plan-price { font-size: 2.4rem; }
+
+    /* Fix pricing on mobile */
+    .pricing-card { padding: 1.8rem 1.3rem; }
+    .plan-price { font-size: 2.3rem; }
+
+    /* Fix footer on mobile */
     .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
 
@@ -1221,7 +1257,7 @@
       <div class="case-info">
         <div class="case-badge-row">
           <span class="case-badge highlight">60 000+ Просмотров</span>
-          <span class="case-badge">35.8K &amp; 25.3K охваты</span>
+          <span class="case-badge">35.8K и 25.3K охваты</span>
           <span class="case-badge">Сценарий + Режиссура</span>
           <span class="case-badge">Видео под ключ</span>
         </div>
@@ -1230,7 +1266,7 @@
         <p class="case-desc">Комплексный проект с полным авторским продакшном. Я разработал вирусные концепции и сценарии, сформировал детальное ТЗ для съёмки и координировал процесс: объяснял, как выставить свет, ракурс и подачу. Результат — ролики собрали более 60 000 просмотров (35.8K и 25.3K) и обеспечили прямую конверсию в гостей клуба.</p>
         <ul class="case-highlights">
           <li><strong>Твердые цифры:</strong> вирусный ролик турнира набрал <strong>35.8K</strong> просмотров, опрос — <strong>25.3K</strong>.</li>
-          <li><strong>Креатив &amp; Сценарий:</strong> разработка идей с гейминг-юмором и интригой в первые секунды.</li>
+          <li><strong>Креатив и сценарий:</strong> разработка идей с гейминг-юмором и интригой в первые секунды.</li>
           <li><strong>Постановка съёмки:</strong> режиссура ракурсов, динамика движений и подача спикера.</li>
           <li><strong>Атмосферный монтаж:</strong> неоновый гейминг-стиль, саунд-дизайн и удержание внимания.</li>
         </ul>
@@ -1652,7 +1688,6 @@
   function getInitialCount() {
     return isMobileGallery() ? GALLERY_INITIAL_MOBILE : GALLERY_INITIAL_DESKTOP;
   }
-
   function getStepCount() {
     return isMobileGallery() ? GALLERY_STEP_MOBILE : GALLERY_STEP_DESKTOP;
   }
@@ -1673,8 +1708,7 @@
     grid.innerHTML = visibleItems.map((v, i) => `
       <div class="gallery-item" data-id="${i}" data-embed="${v.embedUrl}" data-format="${v.format || 'vertical'}" ${v.format === 'horizontal' ? 'style="grid-column: span 2"' : ''}>
         <div class="gallery-thumb ${v.format === 'horizontal' ? 'horizontal' : 'vertical'}">
-          <img src="${v.thumb}"
-               style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
+          <img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${v.title}">
           <div class="gallery-thumb-cover">
             <div class="gallery-play">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>

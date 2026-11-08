@@ -964,43 +964,64 @@
   }
   footer p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
 
-  /* MODAL */
+  /* MODAL (RESPONSIVE & VIEWPORT-CONSTRAINED) */
   .modal-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.92);
+    background: rgba(0,0,0,0.94);
     z-index: 200;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 1.5rem 1rem;
+    box-sizing: border-box;
   }
   .modal-overlay.open { display: flex; }
-  .modal-inner { position: relative; width: fit-content; max-width: 100%; }
+  .modal-inner {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
   .modal-close {
     position: absolute;
-    top: -2.5rem; right: 0;
-    background: none; border: none;
+    top: -2.2rem;
+    right: 0;
+    background: none;
+    border: none;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
+    padding: 0.3rem 0;
     transition: color 0.2s;
   }
   .modal-close:hover { color: var(--text); }
   .modal-video {
-    width: min(560px, calc(86vh * 9 / 16));
-    max-width: 100%;
+    width: 100%;
+    max-width: min(440px, 92vw, calc(78vh * 9 / 16));
     aspect-ratio: 9/16;
     border: 1px solid var(--border);
     background: var(--bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   }
   .modal-video.horizontal {
-    width: min(1040px, calc(86vh * 16 / 9));
+    width: 100%;
+    max-width: min(960px, 94vw, calc(78vh * 16 / 9));
     aspect-ratio: 16/9;
   }
-  .modal-video iframe { width: 100%; height: 100%; border: none; }
+  .modal-video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
 
   /* RESPONSIVE */
   @media (max-width: 960px) {
@@ -1760,8 +1781,9 @@
   function openModal(embedUrl, format) {
     const modal = document.getElementById('modalVideo');
     const inner = document.querySelector('.modal-inner');
-    modal.className = 'modal-video' + (format === 'horizontal' ? ' horizontal' : '');
-    inner.style.maxWidth = format === 'horizontal' ? '860px' : '420px';
+    const isHorizontal = format === 'horizontal';
+    modal.className = 'modal-video' + (isHorizontal ? ' horizontal' : '');
+    inner.style.maxWidth = isHorizontal ? 'min(960px, 94vw)' : 'min(440px, 92vw)';
     modal.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';

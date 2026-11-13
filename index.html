@@ -277,7 +277,7 @@
   }
   .hero-line-1 {
     display: block;
-    margin-bottom: 0.22em; /* гарантированный отступ: запятая никогда не коснется Й */
+    margin-bottom: 0.22em;
   }
   .hero-line-2 {
     display: block;
@@ -511,7 +511,6 @@
     gap: 0.75rem;
     margin-bottom: 2rem;
   }
-  /* NATURAL BLOCK FLOW: NO BROKEN FLEX COLUMNS */
   .case-highlights li {
     display: block;
     position: relative;
@@ -846,16 +845,16 @@
     text-transform: uppercase;
   }
   .plan-price {
-    font-size: 2.8rem;
+    font-size: clamp(2.1rem, 2.8vw, 2.55rem);
     font-weight: 300;
-    line-height: 1;
-    margin: 1.2rem 0 0.3rem;
+    line-height: 1.1;
+    margin: 1.2rem 0 0.45rem;
   }
-  .plan-price span { font-size: 1rem; color: var(--muted); }
+  .plan-price span { font-size: 0.95rem; color: var(--muted); }
   .plan-desc {
     font-size: 0.85rem;
-    color: var(--muted);
-    font-weight: 300;
+    color: #D1D5DB;
+    font-weight: 400;
     margin-bottom: 1.8rem;
     padding-bottom: 1.8rem;
     border-bottom: 1px solid var(--border);
@@ -919,6 +918,7 @@
   .pricing-note-item { display: flex; align-items: flex-start; gap: 0.6rem; }
   .pricing-note-mark { color: var(--accent); font-size: 1rem; flex-shrink: 0; line-height: 1.4; }
   .pricing-note-item p { font-size: 0.88rem; color: var(--muted); font-weight: 300; line-height: 1.5; }
+  .pricing-note-item p strong { color: var(--text); font-weight: 500; }
 
   /* CONTACT */
   .contact-info {
@@ -1117,7 +1117,7 @@
 
     /* Fix pricing on mobile */
     .pricing-card { padding: 1.8rem 1.3rem; }
-    .plan-price { font-size: 2.3rem; }
+    .plan-price { font-size: 2.05rem; }
 
     /* Fix footer on mobile */
     .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
@@ -1445,51 +1445,51 @@
 <section id="pricing">
   <p class="section-label">Тарифы и пакеты</p>
   <h2>Форматы сотрудничества</h2>
-  <p class="section-intro">Понятная пакетная система под ключ: вы только записываете материал, а готовые ролики выходят стабильно по графику.</p>
+  <p class="section-intro">Гибкая система под ваши задачи: можно зайти с разового теста или взять пакет от 15 роликов в месяц с выгодной ставкой за единицу.</p>
 
   <div class="pricing-grid">
 
     <div class="pricing-card">
-      <p class="plan-name">Тест-драйв</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Тестовая серия на 4 ролика без риска</p>
-      <p class="plan-price">14 000 <span>₽ / пакет</span></p>
-      <p class="plan-desc">4 ролика под ключ (3 500 ₽ / ролик)</p>
+      <p class="plan-name">Монтаж под ключ</p>
+      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Работа с вашими готовыми исходниками</p>
+      <p class="plan-price">от 20 000 <span>₽ / мес</span></p>
+      <p class="plan-desc">От 15 роликов в месяц · Разово: от 1 500 ₽ / ролик</p>
       <ul class="plan-features">
-        <li>Аудит исходников и точек потери удержания</li>
-        <li>Плотный смысловой монтаж и динамика</li>
-        <li>Акцентные субтитры и саунд-дизайн</li>
-        <li>Тест 2 вариантов хука для ключевого ролика</li>
-        <li>Быстрый старт и проверка сработанности</li>
+        <li>Чистка пауз, слов-паразитов и смысловых провисаний</li>
+        <li>Плотный ритм склеек под удержание внимания</li>
+        <li>Акцентные субтитры и фирменная типографика</li>
+        <li>Авторский саунд-дизайн и подбор фоновой музыки</li>
+        <li>Оформление в едином визуальном стиле проекта</li>
       </ul>
-      <a href="#contact" class="plan-cta">Начать тест</a>
+      <a href="#contact" class="plan-cta">Обсудить задачу</a>
     </div>
 
     <div class="pricing-card featured">
-      <p class="plan-name">Системный рост</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">10 роликов в месяц — стабильный постинг</p>
-      <p class="plan-price">35 000 <span>₽ / мес</span></p>
-      <p class="plan-desc">Комплекс под ключ (2–3 ролика в неделю)</p>
+      <p class="plan-name">Сценарий + Монтаж</p>
+      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Идея, хук, ТЗ на съёмку и сборка под ключ</p>
+      <p class="plan-price">от 35 000 <span>₽ / мес</span></p>
+      <p class="plan-desc">От 15 роликов в месяц · Разово: от 2 500 ₽ / ролик</p>
       <ul class="plan-features">
-        <li>Всё из тарифа Тест-драйв</li>
-        <li>Доработка сценариев и смысловая чистка до монтажа</li>
-        <li>Индивидуальный саунд-дизайн и анимация</li>
+        <li>Всё из тарифа «Монтаж под ключ»</li>
+        <li>Разработка идеи и сценария с хуком первых 3 секунд</li>
+        <li>Понятное ТЗ: как выставить кадр, свет и подачу</li>
+        <li>Динамичная анимация и усиление смысловых акцентов</li>
         <li>Адаптация под Reels, Shorts и TikTok</li>
-        <li>Срок отдачи черновика: до 48 часов</li>
       </ul>
-      <a href="#contact" class="plan-cta accent">Выбрать пакет</a>
+      <a href="#contact" class="plan-cta accent">Выбрать формат</a>
     </div>
 
     <div class="pricing-card">
-      <p class="plan-name">Масштаб</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">15 роликов в месяц — формат видео-партнёра</p>
-      <p class="plan-price">50 000 <span>₽ / мес</span></p>
-      <p class="plan-desc">Максимальный охват (постинг через день)</p>
+      <p class="plan-name">Видео-партнёр</p>
+      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Весь видео-контент полностью на мне</p>
+      <p class="plan-price">от 50 000 <span>₽ / мес</span></p>
+      <p class="plan-desc">От 15 роликов в месяц · Разово: от 4 000 ₽ / ролик</p>
       <ul class="plan-features">
-        <li>Всё из тарифа Системный рост</li>
-        <li>Приоритетный монтаж ваших роликов</li>
-        <li>Ежемесячный банк идей и виральных референсов</li>
-        <li>Сложные визуальные решения и моушн-акценты</li>
-        <li>A/B тестирование первых секунд для досмотров</li>
+        <li>Всё из тарифа «Сценарий + Монтаж»</li>
+        <li>Аналитика ниши, банк идей и виральных референсов</li>
+        <li>Полная режиссура съёмки и докрутка подачи</li>
+        <li>Приоритетный монтаж и A/B-тесты первых секунд</li>
+        <li>Выкладка и оформление роликов в соцсетях по графику</li>
       </ul>
       <a href="#contact" class="plan-cta">Работать на максимум</a>
     </div>
@@ -1499,15 +1499,15 @@
   <div class="pricing-note">
     <div class="pricing-note-item">
       <span class="pricing-note-mark">＊</span>
-      <p>Если вам нужен разовый монтаж, то всё обсуждается в индивидуальном порядке</p>
+      <p><strong>Как формируется точная стоимость:</strong> стартовая цена указана для разговорных и экспертных роликов со стандартной плотностью графики. Если проекту нужна сложная 3D/моушн-анимация, плотная инфографика или ИИ-генерация сцен — оцениваем задачу индивидуально до старта работы.</p>
     </div>
     <div class="pricing-note-item">
       <span class="pricing-note-mark">＊</span>
-      <p>Пакетный формат снимает с автора всю рутину продакшна: вы только записываете исходники, а готовые единицы контента получаете по чёткому графику.</p>
+      <p><strong>Выгода пакетов:</strong> при заказе от 15 роликов в месяц фиксируется сниженная ставка за единицу и закрепляются приоритетные слоты в графике производства.</p>
     </div>
     <div class="pricing-note-item">
       <span class="pricing-note-mark">＊</span>
-      <p>Длинные горизонтальные видео (YouTube-выпуски, подкасты, интервью) оцениваются индивидуально под хронометраж и сложность задачи.</p>
+      <p>Длинные горизонтальные видео (YouTube-выпуски, подкасты, интервью) рассчитываются индивидуально под хронометраж и сложность продакшна.</p>
     </div>
   </div>
 </section>

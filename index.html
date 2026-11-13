@@ -793,7 +793,60 @@
     gap: 0.6rem;
   }
 
-  /* PRICING */
+  /* PRICING & SEGMENTED TOGGLE */
+  .pricing-toggle-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  .pricing-toggle {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.35rem;
+    gap: 0.25rem;
+  }
+  .pricing-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.65rem 1.4rem;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    transition: all 0.25s ease;
+  }
+  .pricing-toggle-btn:hover {
+    color: var(--text);
+  }
+  .pricing-toggle-btn.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 20px -4px rgba(139,31,48,0.65);
+  }
+  .toggle-badge {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    color: var(--text);
+    transition: background 0.25s;
+  }
+  .pricing-toggle-btn.active .toggle-badge {
+    background: rgba(0,0,0,0.28);
+    color: #fff;
+  }
+
   .pricing-grid {
     max-width: var(--container);
     margin: 0 auto;
@@ -844,20 +897,59 @@
     margin-bottom: 0.3rem;
     text-transform: uppercase;
   }
-  .plan-price {
-    font-size: clamp(2.1rem, 2.8vw, 2.55rem);
+  .plan-subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
     font-weight: 300;
-    line-height: 1.1;
-    margin: 1.2rem 0 0.45rem;
   }
-  .plan-price span { font-size: 0.95rem; color: var(--muted); }
-  .plan-desc {
-    font-size: 0.85rem;
-    color: #D1D5DB;
+  .plan-price-block {
+    margin: 1.4rem 0 0.75rem;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+  .plan-old-price {
+    font-size: 1.35rem;
+    font-weight: 300;
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--accent2);
+    text-decoration-thickness: 1.5px;
+  }
+  .plan-price {
+    font-size: clamp(2.15rem, 2.8vw, 2.6rem);
     font-weight: 400;
-    margin-bottom: 1.8rem;
-    padding-bottom: 1.8rem;
-    border-bottom: 1px solid var(--border);
+    line-height: 1.05;
+    color: var(--text);
+  }
+  .plan-price span {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--muted);
+  }
+  .plan-total-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    color: #E5E7EB;
+    background: rgba(139,31,48,0.14);
+    border: 1px solid rgba(139,31,48,0.35);
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1.6rem;
+    width: fit-content;
+  }
+  .plan-total-pill.single-mode {
+    background: rgba(255,255,255,0.03);
+    border-color: var(--border);
+    color: var(--muted);
+  }
+  .plan-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 1.6rem;
   }
   .plan-features {
     list-style: none;
@@ -1116,8 +1208,10 @@
     .gallery-item[style*="grid-column"] { grid-column: span 1 !important; }
 
     /* Fix pricing on mobile */
+    .pricing-toggle { width: 100%; justify-content: space-between; }
+    .pricing-toggle-btn { flex: 1; justify-content: center; padding: 0.6rem 0.8rem; font-size: 0.76rem; }
     .pricing-card { padding: 1.8rem 1.3rem; }
-    .plan-price { font-size: 2.05rem; }
+    .plan-price { font-size: 2.1rem; }
 
     /* Fix footer on mobile */
     .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
@@ -1445,15 +1539,36 @@
 <section id="pricing">
   <p class="section-label">Тарифы и пакеты</p>
   <h2>Форматы сотрудничества</h2>
-  <p class="section-intro">Гибкая система под ваши задачи: можно зайти с разового теста или взять пакет от 15 роликов в месяц с выгодной ставкой за единицу.</p>
+  <p class="section-intro" style="margin-bottom: 2rem;">Выберите удобный формат работы: системный выпуск контента на месяц по сниженной ставке за ролик или разовый монтаж под конкретную задачу.</p>
 
-  <div class="pricing-grid">
+  <div class="pricing-toggle-wrap">
+    <div class="pricing-toggle" role="tablist" aria-label="Формат оплаты">
+      <button type="button" class="pricing-toggle-btn active" data-billing="monthly" aria-selected="true">
+        Пакет на месяц
+        <span class="toggle-badge">Выгода до 20%</span>
+      </button>
+      <button type="button" class="pricing-toggle-btn" data-billing="single" aria-selected="false">
+        Разовый заказ
+      </button>
+    </div>
+  </div>
 
-    <div class="pricing-card">
+  <div class="pricing-grid" id="pricingGrid">
+
+    <div class="pricing-card"
+         data-monthly-old="1 500 ₽"
+         data-monthly-price="от 1 250"
+         data-monthly-total="Пакет 16 роликов · от 20 000 ₽ / мес"
+         data-single-price="от 1 500"
+         data-single-total="Оплата за 1 ролик по факту задачи">
       <p class="plan-name">Монтаж под ключ</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Работа с вашими готовыми исходниками</p>
-      <p class="plan-price">от 20 000 <span>₽ / мес</span></p>
-      <p class="plan-desc">От 15 роликов в месяц · Разово: от 1 500 ₽ / ролик</p>
+      <p class="plan-subtitle">Работа с вашими готовыми исходниками</p>
+      <div class="plan-price-block">
+        <span class="plan-old-price">1 500 ₽</span>
+        <p class="plan-price">от 1 250 <span>₽ / ролик</span></p>
+      </div>
+      <div class="plan-total-pill">Пакет 16 роликов · от 20 000 ₽ / мес</div>
+      <div class="plan-divider"></div>
       <ul class="plan-features">
         <li>Чистка пауз, слов-паразитов и смысловых провисаний</li>
         <li>Плотный ритм склеек под удержание внимания</li>
@@ -1464,11 +1579,20 @@
       <a href="#contact" class="plan-cta">Обсудить задачу</a>
     </div>
 
-    <div class="pricing-card featured">
+    <div class="pricing-card featured"
+         data-monthly-old="2 800 ₽"
+         data-monthly-price="от 2 250"
+         data-monthly-total="Пакет 16 роликов · от 36 000 ₽ / мес"
+         data-single-price="от 2 800"
+         data-single-total="Оплата за 1 ролик по факту задачи">
       <p class="plan-name">Сценарий + Монтаж</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Идея, хук, ТЗ на съёмку и сборка под ключ</p>
-      <p class="plan-price">от 35 000 <span>₽ / мес</span></p>
-      <p class="plan-desc">От 15 роликов в месяц · Разово: от 2 500 ₽ / ролик</p>
+      <p class="plan-subtitle">Идея, хук, ТЗ на съёмку и сборка под ключ</p>
+      <div class="plan-price-block">
+        <span class="plan-old-price">2 800 ₽</span>
+        <p class="plan-price">от 2 250 <span>₽ / ролик</span></p>
+      </div>
+      <div class="plan-total-pill">Пакет 16 роликов · от 36 000 ₽ / мес</div>
+      <div class="plan-divider"></div>
       <ul class="plan-features">
         <li>Всё из тарифа «Монтаж под ключ»</li>
         <li>Разработка идеи и сценария с хуком первых 3 секунд</li>
@@ -1479,11 +1603,20 @@
       <a href="#contact" class="plan-cta accent">Выбрать формат</a>
     </div>
 
-    <div class="pricing-card">
+    <div class="pricing-card"
+         data-monthly-old="4 000 ₽"
+         data-monthly-price="от 3 250"
+         data-monthly-total="Пакет 16 роликов · от 52 000 ₽ / мес"
+         data-single-price="от 4 000"
+         data-single-total="Оплата за 1 ролик по факту задачи">
       <p class="plan-name">Видео-партнёр</p>
-      <p style="font-size:0.8rem;color:var(--muted);font-weight:300">Весь видео-контент полностью на мне</p>
-      <p class="plan-price">от 50 000 <span>₽ / мес</span></p>
-      <p class="plan-desc">От 15 роликов в месяц · Разово: от 4 000 ₽ / ролик</p>
+      <p class="plan-subtitle">Весь видео-контент полностью на мне</p>
+      <div class="plan-price-block">
+        <span class="plan-old-price">4 000 ₽</span>
+        <p class="plan-price">от 3 250 <span>₽ / ролик</span></p>
+      </div>
+      <div class="plan-total-pill">Пакет 16 роликов · от 52 000 ₽ / мес</div>
+      <div class="plan-divider"></div>
       <ul class="plan-features">
         <li>Всё из тарифа «Сценарий + Монтаж»</li>
         <li>Аналитика ниши, банк идей и виральных референсов</li>
@@ -1503,7 +1636,7 @@
     </div>
     <div class="pricing-note-item">
       <span class="pricing-note-mark">＊</span>
-      <p><strong>Выгода пакетов:</strong> при заказе от 15 роликов в месяц фиксируется сниженная ставка за единицу и закрепляются приоритетные слоты в графике производства.</p>
+      <p><strong>Условия месячного пакета:</strong> базовый пакет включает 16 роликов (стабильный постинг 4 раза в неделю). При необходимости объём можно адаптировать под ваш контент-план.</p>
     </div>
     <div class="pricing-note-item">
       <span class="pricing-note-mark">＊</span>
@@ -1794,6 +1927,40 @@
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       buildGallery(btn.dataset.filter);
+    });
+  });
+
+  /* PRICING TOGGLE LOGIC */
+  const toggleBtns = document.querySelectorAll('.pricing-toggle-btn');
+  const pricingCards = document.querySelectorAll('.pricing-card');
+
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.billing;
+      toggleBtns.forEach(b => {
+        const isActive = b === btn;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      pricingCards.forEach(card => {
+        const oldEl = card.querySelector('.plan-old-price');
+        const priceEl = card.querySelector('.plan-price');
+        const totalEl = card.querySelector('.plan-total-pill');
+
+        if (mode === 'monthly') {
+          oldEl.textContent = card.dataset.monthlyOld;
+          oldEl.style.display = 'inline';
+          priceEl.innerHTML = `${card.dataset.monthlyPrice} <span>₽ / ролик</span>`;
+          totalEl.textContent = card.dataset.monthlyTotal;
+          totalEl.classList.remove('single-mode');
+        } else {
+          oldEl.style.display = 'none';
+          priceEl.innerHTML = `${card.dataset.singlePrice} <span>₽ / ролик</span>`;
+          totalEl.textContent = card.dataset.singleTotal;
+          totalEl.classList.add('single-mode');
+        }
+      });
     });
   });
 
